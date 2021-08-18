@@ -1,0 +1,7 @@
+{
+  "name": "BGGoPlan",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
