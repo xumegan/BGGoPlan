@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-
+import { Observable } from 'rxjs';
+//import { Router } from '@angular/router';
 //import {User} from '../model/model';
 @Component({
   selector: 'app-home',
@@ -9,6 +10,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 })
 export class HomePage {
   //user: User; should working on it later
+  users:Observable<any>;
   name:string;
   // key:string;will be the same key
   position:string;
@@ -19,22 +21,15 @@ export class HomePage {
   
   constructor(
     
-    private firedatabase:AngularFireDatabase, 
+    private firedatabase:AngularFireDatabase,
   ) {
+    this.users = this.firedatabase.list('users', ref =>
+    ref.orderByChild("id").limitToLast(5)).valueChanges();
+  }
   
-  }
-  creatNewUser(){
-    this.firedatabase.list('users').push({     
-      date:Date(),
-      id:`${Date.now()}`,
-      name:this.name,
-      // key: this.user.key,
-      position: this.position,
-      email: this.email,
-      cell: this.cell,
-      type:this.type, 
-      area:this.area,
-    });
-      // this.user =;how to empty it
-  }
+
+    
+     
+  
+  
 }

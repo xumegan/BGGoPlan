@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-title>Create New User</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form #form="ngForm" (ngSubmit)="creatNewUser()">
+    <!-- <strong>Create New User </strong> -->
+    <ion-item>
+      <ion-label>Name:</ion-label>
+      <ion-input type="text" [(ngModel)]="name" ngControl="name" name="name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Position:</ion-label>
+      <ion-input type="text" [(ngModel)]="position" name="position"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Email:</ion-label>
+      <ion-input type="text" [(ngModel)]="email" name="email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Cell:</ion-label>
+      <ion-input type="text" [(ngModel)]="cell" name="cell"></ion-input>
+    </ion-item>
+    <ion-item>
+      <!-- will be select -->
+      <ion-label>Area:</ion-label>
+      <ion-input type="text" [(ngModel)]="area" name="area"></ion-input>
+    </ion-item>
+    <ion-item>
+      <!-- will be select -->
+      <ion-label>Type:</ion-label>
+      <ion-input [(ngModel)]="type" name="type"></ion-input>
+    </ion-item>
+    <ion-button ion-button type="submit" block>Submit</ion-button>
+    <ion-button expand="inline" routerLink="/home" routerDirection="root">Back to Home</ion-button>
+  </form>
+</ion-content>
+
+
+

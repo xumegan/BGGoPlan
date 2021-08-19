@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="success">
     <ion-title>
       Welcome to BGGoPlan
     </ion-title>
@@ -19,41 +19,53 @@
       <!-- <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a> -->
     </p>
 
-    <ion-button >Creat New User</ion-button>
 
-    
+
+   
+<table></table>
+<ion-row class="nameClass" justify-content-center align-items-center style='height: 100%'>
+
+  <ion-col>
+           <div>
+               <strong>Name</strong>
+           </div>
+       </ion-col>
+       <ion-col>
+           <div>
+               <strong>Position</strong>
+           </div>
+       </ion-col>
+   </ion-row>
+
+
+   
+
+
+
+
+
+
+
+
+<ion-grid *ngFor="let user of users |async">
+  <ion-row>
+    <ion-col>
+      {{user.name}}
+    </ion-col>
+    <ion-col>
+      {{user.position}}
+    </ion-col>
+  </ion-row>
+  
+</ion-grid>
+
+
+
+    <!-- <ion-button (click)="openSignUpPage()">Creat New User</ion-button> -->
+    <ion-button expand="inline" routerLink="/create-new-user" routerDirection="root">Creat New User</ion-button>
+    <ion-button expand="inline" [disabled]="user === 'we'" routerDirection="root">Delete</ion-button>
  
-<!-- remove this form to a new page -->
-    <form #form="ngForm" (ngSubmit)="creatNewUser()">
-      <strong>Create New User </strong>
-      <ion-item>
-        <ion-label>Name:</ion-label>
-        <ion-input type="text" [(ngModel)]="name" ngControl="name" name="name"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Position:</ion-label>
-        <ion-input type="text" [(ngModel)]="position" name="position"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Email:</ion-label>
-        <ion-input type="text" [(ngModel)]="email" name="email"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>cell:</ion-label>
-        <ion-input type="text" [(ngModel)]="cell" name="cell"></ion-input>
-      </ion-item>
-      <ion-item>
-        <!-- will be select -->
-        <ion-label>area:</ion-label>
-        <ion-input type="text" [(ngModel)]="area" name="area"></ion-input>
-      </ion-item>
-      <ion-item>
-        <!-- will be select -->
-        <ion-label>type:</ion-label>
-        <ion-input [(ngModel)]="type" name="description"></ion-input>
-      </ion-item>
-      <ion-button ion-button type="submit" block>Submit</ion-button>
-    </form>
+
   
     
 
