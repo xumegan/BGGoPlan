@@ -25,3 +25,34 @@
 #container a {
   text-decoration: none;
 }
+
+
+// by me
+div[scrollx=true],div[scrolly=true] {
+  position: relative;
+  overflow: hidden;
+}
+
+div[scrollx=true] {
+  overflow-x: auto;
+}
+
+div[scrolly=true] {
+  overflow-y: auto;
+}
+
+#scroll-list{
+  height: 30vh;
+  width:  95vw;
+   padding-left: 3vw;
+}
+
+.ion-item {
+  color : "Black";
+  background-color: lightgrey;
+}
+
+.ion-item.active {
+ color : "white";
+ background-color: pink;
+}

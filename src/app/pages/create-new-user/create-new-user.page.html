@@ -33,6 +33,13 @@
       <ion-label>Type:</ion-label>
       <ion-input [(ngModel)]="type" name="type"></ion-input>
     </ion-item>
+
+    <div *ngIf="submitted">
+      <h4>You submitted successfully!</h4>
+      
+    </div>
+
+
     <ion-button ion-button type="submit" block>Submit</ion-button>
     <ion-button expand="inline" routerLink="/home" routerDirection="root">Back to Home</ion-button>
   </form>

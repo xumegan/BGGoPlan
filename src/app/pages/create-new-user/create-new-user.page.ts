@@ -14,22 +14,28 @@ email:string;
 cell:string;
 type:string; 
 area:string;
-  constructor(private firedatabase:AngularFireDatabase,) { }
+submitted = false;
+  constructor(private firedatabase:AngularFireDatabase,) { 
+    this.submitted = false;
+  }
 
   ngOnInit() {
   }
   creatNewUser(){
-    this.firedatabase.list('users').push({     
+    const list = this.firedatabase.list(`/users`)
+    list.push({     
       date:Date(),
       id:`${Date.now()}`,
       name:this.name,
-      // key: this.user.key,
       position: this.position,
       email: this.email,
       cell: this.cell,
       type:this.type, 
       area:this.area,
-    });
-      // this.user =;how to empty it
+    }).then(ref=>{
+      this.firedatabase.object(`users/${ref.key}`).update({ key:ref.key})
+  });
+    this.submitted = true;
+       //this.user = null
   }
 }

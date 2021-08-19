@@ -15,59 +15,75 @@
 
   <div id="container">
     <strong>Response Super-Small Address Book </strong>
-    <p>Current Users 
-      <!-- <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a> -->
-    </p>
+    <p> Total Users in the System :{{totalUsers}}</p>
+    <ion-searchbar
+      [(ngModel)]="users"
+      [showCancelButton]="shouldShowCancel"
+      (ionInput)="onInput($event)"
+      (ionCancel)="onCancel($event)">
+    </ion-searchbar>
 
+    <div scrollY="true" id="scroll-list">
+      <ion-list>
+        <ion-item-sliding>
+          <ion-item>
+            <ion-col><strong>Name</strong></ion-col>
+            <ion-col><strong>Position</strong></ion-col>
+          </ion-item>
+          <ion-item 
+            *ngFor="let user of users | async; let i = index" 
+            [class.active]="i === currentIndex"
+            (click)="setActiveUser(user, i)" 
+          >
+            <ion-col class="ion-item">{{user.name}}</ion-col>
+            <ion-col class="ion-item">{{user.position}}</ion-col>
+          </ion-item>
+        </ion-item-sliding>
+      </ion-list>
+    </div>
 
-
-   
-<table></table>
-<ion-row class="nameClass" justify-content-center align-items-center style='height: 100%'>
-
-  <ion-col>
-           <div>
-               <strong>Name</strong>
-           </div>
-       </ion-col>
-       <ion-col>
-           <div>
-               <strong>Position</strong>
-           </div>
-       </ion-col>
-   </ion-row>
-
-
-   
-
-
-
-
-
-
-
-
-<ion-grid *ngFor="let user of users |async">
-  <ion-row>
-    <ion-col>
-      {{user.name}}
-    </ion-col>
-    <ion-col>
-      {{user.position}}
-    </ion-col>
-  </ion-row>
-  
-</ion-grid>
-
-
-
-    <!-- <ion-button (click)="openSignUpPage()">Creat New User</ion-button> -->
-    <ion-button expand="inline" routerLink="/create-new-user" routerDirection="root">Creat New User</ion-button>
-    <ion-button expand="inline" [disabled]="user === 'we'" routerDirection="root">Delete</ion-button>
+    <ion-button 
+      expand="inline" 
+      [disabled]="id !== ''"  
+      (click)="viewUser(id)"
+      >
+      View User
+    </ion-button>
+    <ion-button 
+      expand="inline" 
+      routerLink="/create-new-user" 
+      routerDirection="root"
+      >
+      Creat New User
+    </ion-button>
+    <ion-button 
+      expand="inline" 
+      [disabled]="id !== ''"  
+      (click)="deleteUser(id)"
+      >
+      Delete
+    </ion-button>
  
 
-  
-    
+    <p> Filtered List :{{totalUsers}}</p>
+    <div class="" scrollY="true" id="scroll-list">
+      <ion-list>
+        <ion-item-sliding>
+          <ion-item>
+            <ion-col><strong>Name</strong></ion-col>
+            <ion-col><strong>Position</strong></ion-col>
+          </ion-item>
+          <ion-item 
+            *ngFor="let user of users | async; let i = index" 
+            [class.active]="i === currentIndex"
+            (click)="setActiveUser(user, i)" 
+          >
+            <ion-col class="ion-item">{{user.name}}</ion-col>
+            <ion-col class="ion-item">{{user.position}}</ion-col>
+          </ion-item>
+        </ion-item-sliding>
+      </ion-list>
+    </div>
 
 
     
