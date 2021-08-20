@@ -1,37 +1,15 @@
-$list-ios-activated-background-color: #d9d9d9;
-$list-md-activated-background-color: #f1f1f1;
-$list-wp-activated-background-color: #aaa;
-
 #container {
-  text-align: center;
-
+ text-align: center;
+border-color: lightseagreen;
   position: relative;
   left: 0;
   right: 0;
-   top: 50%;
-  transform: translateY(-50%);
-}
-
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
 }
 
 #container a {
   text-decoration: none;
 }
 
-
-// by me
 div[scrollx=true],div[scrolly=true] {
   position: relative;
   overflow: hidden;
@@ -43,16 +21,18 @@ div[scrollx=true] {
 
 div[scrolly=true] {
   overflow-y: auto;
+  border-color: grey;
 }
 
 #scroll-list{
   height: 30vh;
   width:  95vw;
-   padding-left: 3vw;
 }
 
 .ion-item {
   color : "Black";
+  padding:0;
+  margin: 0;
   background-color: lightgrey;
   --background-activated: red;
 }
@@ -64,4 +44,15 @@ div[scrolly=true] {
  $list-ios-activated-background-color: #d9d9d9;
 $list-md-activated-background-color: #f1f1f1;
 $list-wp-activated-background-color: #aaa;
+}
+img{
+  background-color: lightgreen;
+}
+
+.filterby{
+display: inline;
+background-color: limegreen;
+border-radius: 5px;
+padding:5px;
+margin-left: 20%;
 }

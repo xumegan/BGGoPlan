@@ -7,107 +7,93 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" padding>
-  <div id="container">  
+  <div id="container">    
+    <ion-searchbar placeholder="Search..." [(ngModel)]="filterTerm" ></ion-searchbar>
     <p> Total Users in the System :{{totalUsers}}</p>
-    <ion-searchbar
-      [(ngModel)]="users"
-      [showCancelButton]="shouldShowCancel"
-      (ionInput)="onInput($event)"
-      (ionCancel)="onCancel($event)">
-    </ion-searchbar>
-
     <div scrollY="true" id="scroll-list">
       <ion-list>
         <ion-item-sliding>
           <ion-item>
+            <ion-col></ion-col>
             <ion-col><strong>Name</strong></ion-col>
             <ion-col><strong>Position</strong></ion-col>
           </ion-item>
           <ion-item 
-            *ngFor="let user of users | async; let i = index" 
+            *ngFor="let user of users| async | filter:filterTerm; let i = index" 
             [class.active]="i === currentIndex"
             (click)="setActiveUser(user, i)" 
-          >
-            <ion-col class="ion-item">{{user.name}}</ion-col>
+          >           
+              <ion-avatar slot="start">
+                <img src="{{user.profile_pic}}" />
+              </ion-avatar>            
+            <ion-col  class="ion-item">{{user.name}}</ion-col>
             <ion-col class="ion-item">{{user.position}}</ion-col>
           </ion-item>
         </ion-item-sliding>
       </ion-list>
     </div>
-
+    <hr>
+  <div>
     <ion-button 
       expand="inline" 
-      [disabled]="key !== ''"  
-      (click)="viewUser(key)"
-      >
-      View User
-    </ion-button>
+      [disabled]="!key"
+      routerLink="/create-user-details" 
+      routerDirection="root"
+      >View User</ion-button>
+          
     <ion-button 
       expand="inline" 
       routerLink="/create-new-user" 
       routerDirection="root"
-      >
-      Creat New User
-    </ion-button>
+      >Creat New User</ion-button>      
+    
     <ion-button 
       expand="inline" 
       (click)="deleteUser(key)"
       [disabled]="!key"
-      > 
-      Delete
-    </ion-button>
- 
+      > Delete</ion-button>
+  </div>    
+  <hr>
 
-    <p> Filtered List: {{area}}{{type}}</p>
-    <div class="" scrollY="true" id="scroll-list">
-      <ion-list>
-        <ion-item-sliding>
-          <ion-item>
-            <ion-col><strong>Name</strong></ion-col>
-            <ion-col><strong>Position</strong></ion-col>
-          </ion-item>
-     
-          
-          <ng-container *ngFor="let project of projects">
-            <h1 *ngIf="tab.category == project.category">
-                Project Name: {{project.name}}
-            </h1>
-          </ng-container>
-
-
-          <ng-container *ngFor="let user of users | async; let i = index">
-            <ion-item 
+  <p> Filtered List: {{area}}{{type}}</p>
+  <div class="" scrollY="true" id="scroll-list">
+    <ion-list>
+      <ion-item-sliding>
+        <ion-item>
+          <ion-col><strong></strong></ion-col>
+          <ion-col><strong>Name</strong></ion-col>
+          <ion-col><strong>Position</strong></ion-col>
+        </ion-item>
+        <ng-container *ngFor="let user of users | async; let i = index">
+          <ion-item 
             [class.active]="currentIndex == i"
-            *ngIf="area == user.area"
-            (click)="setActiveUser(user, i)" 
-            class="ng-style: currentIndex == i && {color:'red'};"
-          >{{currentIndex}}
+            *ngIf="area == user.area || type == user.type "            
+          >
+            <ion-avatar slot="start">
+              <img src="{{user.profile_pic}}" />
+            </ion-avatar>
             <ion-col >{{user.name}}</ion-col>
             <ion-col >{{user.position}}</ion-col>
           </ion-item>
-          </ng-container>
-          
-        </ion-item-sliding>
-      </ion-list>
-    </div>
+        </ng-container>
+      </ion-item-sliding>
+    </ion-list>
+  </div>
+  
+  <ion-row>
+    <label class="filterby">
+     <ion-select [(ngModel)]="area" name="area" placeholder="Filter by Area">
+      <ion-select-option *ngFor="let area of filterbyarea" value={{area}}>{{area}}</ion-select-option>
+      </ion-select>
+    </label >
 
-<label>Filter by Area:
-     <ion-select [(ngModel)]="area" name="area">
-      <ion-select-option *ngFor="let a of userfilter |async" value={{a.area}}>{{a.area}}</ion-select-option>
-   </ion-select>
- </label >
-   <!-- <select [(ngModel)]="type" name="type">
-    <option *ngFor="let t of userfilter |async" value={{t.type}}>{{t.type}}</option>
- </select> -->
-    
-    
-  <label 
-    > 
-    Filter by Type:{{type}}
-    <ion-select [(ngModel)]="type" name="type">
-      <ion-select-option *ngFor="let t of userfilter |async" value={{t.type}}>{{t.type}}</ion-select-option>
+    <label class="filterby">              
+      <ion-select [(ngModel)]="type" name="type" placeholder="Filter by Type">
+        <ion-select-option value="null">Please select value</ion-select-option>
+        <ion-select-option *ngFor="let type of filterbytype" value={{type}}>  
+       {{type}}</ion-select-option>
    </ion-select>
   </label>
-    
-  </div>
+    </ion-row>
+  </div> 
 </ion-content>

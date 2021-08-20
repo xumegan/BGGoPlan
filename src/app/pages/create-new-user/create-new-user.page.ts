@@ -35,6 +35,7 @@ userfilter:Observable<any[]>;
       cell: this.cell,
       type:this.type, 
       area:this.area,
+      profile_pic:"https://firebasestorage.googleapis.com/v0/b/fir-authreact-f0c50.appspot.com/o/products%2F2.jpg?alt=media&token=316ddc5b-f0c1-4b0c-804a-d97e43f057f5"
     }).then(ref=>{
       this.firedatabase.object(`users/${ref.key}`).update({ key:ref.key})
   });
