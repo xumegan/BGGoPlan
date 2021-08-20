@@ -1,12 +1,11 @@
 <ion-header>
-  <ion-toolbar color="success">
+  <ion-toolbar color="primary">
     <ion-title>Create New User</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <form #form="ngForm" (ngSubmit)="creatNewUser()">
-    <!-- <strong>Create New User </strong> -->
     <ion-item>
       <ion-label>Name:</ion-label>
       <ion-input type="text" [(ngModel)]="name" ngControl="name" name="name"></ion-input>
@@ -23,27 +22,21 @@
       <ion-label>Cell:</ion-label>
       <ion-input type="text" [(ngModel)]="cell" name="cell"></ion-input>
     </ion-item>
+
     <ion-item>
-      <!-- will be select -->
       <ion-label>Area:</ion-label>
-      <ion-input type="text" [(ngModel)]="area" name="area"></ion-input>
-    </ion-item>
+      <select [(ngModel)]="area" name="area">
+        <option *ngFor="let a of userfilter |async" value={{a.area}}>{{a.area}}</option>
+     </select>
+     
+    </ion-item> 
     <ion-item>
-      <!-- will be select -->
       <ion-label>Type:</ion-label>
-      <ion-input [(ngModel)]="type" name="type"></ion-input>
-    </ion-item>
-
-    <div *ngIf="submitted">
-      <h4>You submitted successfully!</h4>
-      
-    </div>
-
-
+      <select [(ngModel)]="type" name="type">
+        <option *ngFor="let t of userfilter |async" value={{t.type}}>{{t.type}}</option>
+     </select>
+    </ion-item> 
     <ion-button ion-button type="submit" block>Submit</ion-button>
     <ion-button expand="inline" routerLink="/home" routerDirection="root">Back to Home</ion-button>
   </form>
 </ion-content>
-
-
-

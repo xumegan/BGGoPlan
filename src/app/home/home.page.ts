@@ -13,33 +13,48 @@ import {User} from '../model/model';
 export class HomePage {
   // user:User;
   users:Observable<any[]>;
+  userfilter:Observable<any[]>;
+  
   totalUsers:any;
   currentUser = null;
   currentIndex = -1;
-  id:any;
+  id:any = '';
+  key:string;
+  styleOne: boolean = false;
+
+  successDelete:string;
+  errorDelete:string;
+
+  filterbyarea:any[];
+  filterbytype:any[];
+
   @Input() user: User;
   @Output() refreshList: EventEmitter<any> = new EventEmitter();
   
   constructor(private firedatabase:AngularFireDatabase,) {
     this.users = this.firedatabase.list(`users`).valueChanges();
-    this.users.subscribe(items => this.totalUsers = Object.keys(items).length)
+    this.users.subscribe(items => this.totalUsers = Object.keys(items).length);
+    this.userfilter = this.firedatabase.list(`userfilter`).valueChanges();
+
 
   }
 
-  viewUser(id) {
-//
-}  
+ 
 setActiveUser(user:string, index:number): void{
 this.currentUser = user
-this.id =this.currentUser.key
+this.key =this.currentUser.key
   this.currentIndex = index;
+  this.styleOne = true;
 }
 
 
-  deleteUser(key:any){
-    console.log(key)
-    this.firedatabase.object(`users/${key}`).remove()
-  }   
-  
+  deleteUser(key:string){
+    this.firedatabase.object(`users/${key}`).remove().then(() => {
+      this.successDelete ="You successfully delete it!"
+    })
+    .catch(error => this.errorDelete= error);
+    this.key=''
+}
+     
   
 }

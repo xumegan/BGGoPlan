@@ -1,20 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="success">
     <ion-title>
-      Welcome to BGGoPlan
+      <strong>Response Super-Small Address Book </strong>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Response Super-Small Address Book </strong>
+<ion-content [fullscreen]="true" padding>
+  <div id="container">  
     <p> Total Users in the System :{{totalUsers}}</p>
     <ion-searchbar
       [(ngModel)]="users"
@@ -44,8 +37,8 @@
 
     <ion-button 
       expand="inline" 
-      [disabled]="id !== ''"  
-      (click)="viewUser(id)"
+      [disabled]="key !== ''"  
+      (click)="viewUser(key)"
       >
       View User
     </ion-button>
@@ -58,14 +51,14 @@
     </ion-button>
     <ion-button 
       expand="inline" 
-      [disabled]="id !== ''"  
-      (click)="deleteUser(id)"
-      >
+      (click)="deleteUser(key)"
+      [disabled]="!key"
+      > 
       Delete
     </ion-button>
  
 
-    <p> Filtered List :{{totalUsers}}</p>
+    <p> Filtered List: {{area}}{{type}}</p>
     <div class="" scrollY="true" id="scroll-list">
       <ion-list>
         <ion-item-sliding>
@@ -73,19 +66,48 @@
             <ion-col><strong>Name</strong></ion-col>
             <ion-col><strong>Position</strong></ion-col>
           </ion-item>
-          <ion-item 
-            *ngFor="let user of users | async; let i = index" 
-            [class.active]="i === currentIndex"
+     
+          
+          <ng-container *ngFor="let project of projects">
+            <h1 *ngIf="tab.category == project.category">
+                Project Name: {{project.name}}
+            </h1>
+          </ng-container>
+
+
+          <ng-container *ngFor="let user of users | async; let i = index">
+            <ion-item 
+            [class.active]="currentIndex == i"
+            *ngIf="area == user.area"
             (click)="setActiveUser(user, i)" 
-          >
-            <ion-col class="ion-item">{{user.name}}</ion-col>
-            <ion-col class="ion-item">{{user.position}}</ion-col>
+            class="ng-style: currentIndex == i && {color:'red'};"
+          >{{currentIndex}}
+            <ion-col >{{user.name}}</ion-col>
+            <ion-col >{{user.position}}</ion-col>
           </ion-item>
+          </ng-container>
+          
         </ion-item-sliding>
       </ion-list>
     </div>
 
-
+<label>Filter by Area:
+     <ion-select [(ngModel)]="area" name="area">
+      <ion-select-option *ngFor="let a of userfilter |async" value={{a.area}}>{{a.area}}</ion-select-option>
+   </ion-select>
+ </label >
+   <!-- <select [(ngModel)]="type" name="type">
+    <option *ngFor="let t of userfilter |async" value={{t.type}}>{{t.type}}</option>
+ </select> -->
+    
+    
+  <label 
+    > 
+    Filter by Type:{{type}}
+    <ion-select [(ngModel)]="type" name="type">
+      <ion-select-option *ngFor="let t of userfilter |async" value={{t.type}}>{{t.type}}</ion-select-option>
+   </ion-select>
+  </label>
     
   </div>
 </ion-content>

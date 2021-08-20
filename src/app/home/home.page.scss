@@ -1,10 +1,14 @@
+$list-ios-activated-background-color: #d9d9d9;
+$list-md-activated-background-color: #f1f1f1;
+$list-wp-activated-background-color: #aaa;
+
 #container {
   text-align: center;
 
-  position: absolute;
+  position: relative;
   left: 0;
   right: 0;
-  top: 50%;
+   top: 50%;
   transform: translateY(-50%);
 }
 
@@ -50,9 +54,14 @@ div[scrolly=true] {
 .ion-item {
   color : "Black";
   background-color: lightgrey;
+  --background-activated: red;
 }
 
 .ion-item.active {
  color : "white";
  background-color: pink;
+ --background-activated: red;
+ $list-ios-activated-background-color: #d9d9d9;
+$list-md-activated-background-color: #f1f1f1;
+$list-wp-activated-background-color: #aaa;
 }
