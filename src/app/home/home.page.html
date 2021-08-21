@@ -2,36 +2,79 @@
   <ion-toolbar color="success">
     <ion-title>
       <strong>Response Super-Small Address Book </strong>
+      <!-- <small> (Total:{{totalUsers}})</small> -->
+      <a
+      expand="inline" 
+      routerLink="/create-new-user" 
+      routerDirection="root"
+      ><img src="../../assets/add_circle_outline_black_24dp.svg" class="addnewuser"></a>       
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" padding>
   <div id="container">    
-    <ion-searchbar placeholder="Search..." [(ngModel)]="filterTerm" ></ion-searchbar>
-    <p> Total Users in the System :{{totalUsers}}</p>
-    <div scrollY="true" id="scroll-list">
-      <ion-list>
+    <!-- <ion-searchbar 
+      placeholder="Search..." 
+      [(ngModel)]="filterTerm" 
+      >
+    </ion-searchbar> -->
+    
+<!-- <ion-virtual-scroll  apprxItemHeight="70px">[item]=users -->
+<ion-card>
+  <ion-item 
+    *ngFor="let user of users | filter:filterTerm; let i = index" 
+    [class.active]="i === currentIndex"
+    (click)="setActiveUser(user, i)"
+  >
+  <app-user [user]='user'></app-user>
+    <!-- <ion-avatar slot='start'>
+      <img src="{{user.profile_pic}}">
+    </ion-avatar>
+    <ion-label>
+      <h2 tex-capitalize> {{user.name}}</h2>
+      <p> {{user.position}}</p>
+    </ion-label> -->
+  </ion-item>
+</ion-card>
+<!-- </ion-virtual-scroll> -->
+
+<div thereshold ="25%" (ionInfinite)="loadMore($event)">
+  <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data ..."></ion-infinite-scroll-content>
+</div>
+
+
+
+    <!-- <div scrollY="true" id="scroll-list">
+      <div>
         <ion-item-sliding>
-          <ion-item>
+          <ion-item *ngIf="toggled" >
             <ion-col></ion-col>
-            <ion-col><strong>Name</strong></ion-col>
+            <ion-col ><strong>Name</strong></ion-col>
             <ion-col><strong>Position</strong></ion-col>
-          </ion-item>
-          <ion-item 
+          </ion-item> 
+          <ion-item width-100 
+          class="divider"
             *ngFor="let user of users| async | filter:filterTerm; let i = index" 
             [class.active]="i === currentIndex"
             (click)="setActiveUser(user, i)" 
+            color ='primary'
+            style="background-color:rgb(0, 124, 0)"
           >           
               <ion-avatar slot="start">
                 <img src="{{user.profile_pic}}" />
               </ion-avatar>            
-            <ion-col  class="ion-item">{{user.name}}</ion-col>
-            <ion-col class="ion-item">{{user.position}}</ion-col>
+            <ion-col [ngStyle]="{'background-color': buttonColor}" >{{user.name}}</ion-col>
+            <ion-col [ngStyle]="{'background-color': buttonColor}">{{user.position}}</ion-col>
           </ion-item>
         </ion-item-sliding>
-      </ion-list>
-    </div>
+      </div>-->
+    </div> 
+
+
+
+
+
     <hr>
   <div>
     <ion-button 
@@ -41,22 +84,18 @@
       routerDirection="root"
       >View User</ion-button>
           
-    <ion-button 
-      expand="inline" 
-      routerLink="/create-new-user" 
-      routerDirection="root"
-      >Creat New User</ion-button>      
+         
     
-    <ion-button 
+    <!-- <ion-button 
       expand="inline" 
       (click)="deleteUser(key)"
       [disabled]="!key"
-      > Delete</ion-button>
+      > Delete</ion-button> -->
   </div>    
   <hr>
 
-  <p> Filtered List: {{area}}{{type}}</p>
-  <div class="" scrollY="true" id="scroll-list">
+  <!-- <p> Filtered List: {{area}}{{type}}</p> -->
+  <!-- <div class="" scrollY="true" id="scroll-list">
     <ion-list>
       <ion-item-sliding>
         <ion-item>
@@ -94,6 +133,11 @@
        {{type}}</ion-select-option>
    </ion-select>
   </label>
+  <ion-button 
+      expand="inline" 
+      
+      [disabled]="!key"
+      > Clear</ion-button>
     </ion-row>
-  </div> 
+  </div>  -->
 </ion-content>

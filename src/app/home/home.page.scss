@@ -1,14 +1,21 @@
-#container {
- text-align: center;
-border-color: lightseagreen;
-  position: relative;
-  left: 0;
-  right: 0;
-}
+// #container {
+//  text-align: center;
+// border-color: lightseagreen;
+//   position: relative;
+//   left: 0;
+//   right: 0;
+// }
 
-#container a {
+// #container a {
+//   text-decoration: none;
+// }
+
+
+ion-card{
+  //   temp put here
   text-decoration: none;
 }
+
 
 div[scrollx=true],div[scrolly=true] {
   position: relative;
@@ -46,7 +53,14 @@ $list-md-activated-background-color: #f1f1f1;
 $list-wp-activated-background-color: #aaa;
 }
 img{
-  background-color: lightgreen;
+  background-color: white;
+  color:white;
+  border-radius: 50%;
+}
+.addnewuser{
+  width: 20px;
+  height: 20px;
+  float: right;
 }
 
 .filterby{
@@ -55,4 +69,10 @@ background-color: limegreen;
 border-radius: 5px;
 padding:5px;
 margin-left: 20%;
+}
+.divider{
+  margin-top: -15px;
+}
+.activeclass{
+  background: #488aff !important;
 }

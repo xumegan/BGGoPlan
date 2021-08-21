@@ -1,17 +1,17 @@
 export class User{
   name:string;
-  // key:string;
+  firstName:string;
+  lastName:string;
   position:string;
   email:string;
   cell:string;
   type:string; 
   area:string;
-// profile_pic: 
+  key: string;
+  url: string; 
+profile_pic: File;
+
+  constructor(file: File) {
+    this.profile_pic = file;
+  }
 }
-// name: 
-// position: 
-// email: close
-// cell:
-// area: 
-// profile_pic: 
-// type: 

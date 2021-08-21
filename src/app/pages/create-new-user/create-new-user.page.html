@@ -7,8 +7,12 @@
 <ion-content>
   <form #form="ngForm" (ngSubmit)="creatNewUser()">
     <ion-item>
-      <ion-label>Name:</ion-label>
-      <ion-input type="text" [(ngModel)]="name" ngControl="name" name="name"></ion-input>
+      <ion-label>First Name:</ion-label>
+      <ion-input type="text" [(ngModel)]="firstName" ngControl="firstName" name="firstName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Last Name:</ion-label>
+      <ion-input type="text" [(ngModel)]="lastName" ngControl="lastName" name="lastName"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>Position:</ion-label>
