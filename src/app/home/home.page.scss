@@ -1,21 +1,3 @@
-// #container {
-//  text-align: center;
-// border-color: lightseagreen;
-//   position: relative;
-//   left: 0;
-//   right: 0;
-// }
-
-// #container a {
-//   text-decoration: none;
-// }
-
-
-ion-card{
-  //   temp put here
-  text-decoration: none;
-}
-
 
 div[scrollx=true],div[scrolly=true] {
   position: relative;
@@ -31,48 +13,11 @@ div[scrolly=true] {
   border-color: grey;
 }
 
-#scroll-list{
-  height: 30vh;
-  width:  95vw;
-}
 
-.ion-item {
-  color : "Black";
-  padding:0;
-  margin: 0;
-  background-color: lightgrey;
-  --background-activated: red;
-}
-
-.ion-item.active {
- color : "white";
- background-color: pink;
- --background-activated: red;
- $list-ios-activated-background-color: #d9d9d9;
-$list-md-activated-background-color: #f1f1f1;
-$list-wp-activated-background-color: #aaa;
-}
-img{
-  background-color: white;
-  color:white;
-  border-radius: 50%;
-}
-.addnewuser{
-  width: 20px;
-  height: 20px;
-  float: right;
-}
-
-.filterby{
-display: inline;
-background-color: limegreen;
-border-radius: 5px;
-padding:5px;
-margin-left: 20%;
-}
-.divider{
-  margin-top: -15px;
-}
-.activeclass{
-  background: #488aff !important;
+.bottom{
+  position: fixed;
+  z-index: 10;
+  bottom: 10px;
+  width:100%;
+  background-color: rgb(230, 243, 230) !important;
 }

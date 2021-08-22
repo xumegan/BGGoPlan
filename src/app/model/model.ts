@@ -1,4 +1,6 @@
 export class User{
+  //interface
+  id:string;
   name:string;
   firstName:string;
   lastName:string;

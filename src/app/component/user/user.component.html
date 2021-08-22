@@ -1,7 +1,11 @@
-<ion-avatar slot='start'>
-      <img src="{{user.profile_pic}}">
-    </ion-avatar>
-    <ion-label>
-      <h2 tex-capitalize> {{user.name}}</h2>
-      <p> {{user.position}}</p>
-    </ion-label>
+<ion-item button> 
+  <ion-avatar slot='start'>
+    <ion-img src="{{user.profile_pic}}"></ion-img>
+  </ion-avatar>
+
+  <ion-label>
+    <h2> {{user.name.firstName}} {{user.name.lastName}}</h2>
+    <p> {{user.position}}</p>
+  </ion-label>
+</ion-item> 
+

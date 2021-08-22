@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">      
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Edit User Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="vertical-align-content"> 
+  <ion-grid> 
+    <ion-row>
+      <ion-col>     
+        <img src="../../../assets/shapes.svg">
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-list>
+      <form [formGroup]="updateUserForm" (ngSubmit)="updateForm()">
+        <ion-item> 
+         <ion-label position="floating">First Name: </ion-label>
+          <ion-input formControlName="firstName" type="text" required>
+          </ion-input>
+        </ion-item>
+        <ion-item> 
+         <ion-label position="floating">Last Name: </ion-label> 
+          <ion-input formControlName="lastName" type="text" required>
+          </ion-input>
+        </ion-item>   
+        <ion-item> 
+          <ion-label position="floating">Email:</ion-label> 
+           <ion-input formControlName="email" type="text" required>
+          </ion-input>
+        </ion-item>       
+        <ion-item> 
+           <ion-label position="floating">Position:</ion-label>
+           <ion-input formControlName="position" type="text" required>
+          </ion-input>
+        </ion-item>
+        <ion-item> 
+          <ion-label position="floating">Mobile: </ion-label>
+          <ion-input formControlName="cell" type="text" required>
+          </ion-input>
+        </ion-item>
+    
+        <ion-item> Type:
+          <select formControlName="type">
+            <option *ngFor="let type of filterbytype" value={{type}}>{{type}}</option>
+          </select>
+        </ion-item>
+        <ion-item> Area:
+          <select formControlName="area">
+            <option *ngFor="let area of filterbyarea" value={{area}}>{{area}}</option>
+          </select>
+        </ion-item>
+      <ion-row>
+        <ion-col>
+          <ion-button type="submit" color="success">Update</ion-button>
+        </ion-col>
+      </ion-row> 
+    </form>
+  </ion-list>
+</ion-content> 

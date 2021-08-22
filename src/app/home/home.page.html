@@ -1,121 +1,41 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="success">
     <ion-title>
-      <strong>Response Super-Small Address Book </strong>
-      <!-- <small> (Total:{{totalUsers}})</small> -->
-      <a
-      expand="inline" 
-      routerLink="/create-new-user" 
-      routerDirection="root"
-      ><img src="../../assets/add_circle_outline_black_24dp.svg" class="addnewuser"></a>       
+      Response Super-Small Address Book
+      <small> (Total:  {{totalUsers}})</small> 
     </ion-title>
+    <ion-buttons slot="primary">
+      <ion-button routerLink='/create-new-user' routerDirection="root">
+        <ion-icon name="person-add-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" padding>
-  <div id="container">    
-    <!-- <ion-searchbar 
-      placeholder="Search..." 
-      [(ngModel)]="filterTerm" 
-      >
-    </ion-searchbar> -->
+<ion-content [fullscreen]="true" padding>    
+  <ion-searchbar  placeholder="Search..." [(ngModel)]="filterTerm"></ion-searchbar> 
     
-<!-- <ion-virtual-scroll  apprxItemHeight="70px">[item]=users -->
-<ion-card>
-  <ion-item 
-    *ngFor="let user of users | filter:filterTerm; let i = index" 
-    [class.active]="i === currentIndex"
-    (click)="setActiveUser(user, i)"
-  >
-  <app-user [user]='user'></app-user>
-    <!-- <ion-avatar slot='start'>
-      <img src="{{user.profile_pic}}">
-    </ion-avatar>
-    <ion-label>
-      <h2 tex-capitalize> {{user.name}}</h2>
-      <p> {{user.position}}</p>
-    </ion-label> -->
-  </ion-item>
-</ion-card>
-<!-- </ion-virtual-scroll> -->
-
-<div thereshold ="25%" (ionInfinite)="loadMore($event)">
-  <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data ..."></ion-infinite-scroll-content>
-</div>
-
-
-
-    <!-- <div scrollY="true" id="scroll-list">
-      <div>
-        <ion-item-sliding>
-          <ion-item *ngIf="toggled" >
-            <ion-col></ion-col>
-            <ion-col ><strong>Name</strong></ion-col>
-            <ion-col><strong>Position</strong></ion-col>
-          </ion-item> 
-          <ion-item width-100 
-          class="divider"
-            *ngFor="let user of users| async | filter:filterTerm; let i = index" 
-            [class.active]="i === currentIndex"
-            (click)="setActiveUser(user, i)" 
-            color ='primary'
-            style="background-color:rgb(0, 124, 0)"
-          >           
-              <ion-avatar slot="start">
-                <img src="{{user.profile_pic}}" />
-              </ion-avatar>            
-            <ion-col [ngStyle]="{'background-color': buttonColor}" >{{user.name}}</ion-col>
-            <ion-col [ngStyle]="{'background-color': buttonColor}">{{user.position}}</ion-col>
-          </ion-item>
-        </ion-item-sliding>
-      </div>-->
-    </div> 
-
-
-
-
-
-    <hr>
-  <div>
-    <ion-button 
-      expand="inline" 
-      [disabled]="!key"
-      routerLink="/create-user-details" 
-      routerDirection="root"
-      >View User</ion-button>
-          
-         
-    
-    <!-- <ion-button 
-      expand="inline" 
-      (click)="deleteUser(key)"
-      [disabled]="!key"
-      > Delete</ion-button> -->
-  </div>    
+  <div  scrollY="true" id="scroll-list">
+    <ion-card *ngFor="let user of users | filter:filterTerm; " 
+      [routerLink]="['./',user.$key]">  
+        <app-user [user]='user'></app-user>         
+      </ion-card>    
+  </div>
+   
   <hr>
-
-  <!-- <p> Filtered List: {{area}}{{type}}</p> -->
-  <!-- <div class="" scrollY="true" id="scroll-list">
-    <ion-list>
-      <ion-item-sliding>
-        <ion-item>
-          <ion-col><strong></strong></ion-col>
-          <ion-col><strong>Name</strong></ion-col>
-          <ion-col><strong>Position</strong></ion-col>
-        </ion-item>
-        <ng-container *ngFor="let user of users | async; let i = index">
-          <ion-item 
-            [class.active]="currentIndex == i"
-            *ngIf="area == user.area || type == user.type "            
-          >
+<div class="bottom"  >
+  <p [hidden]="!area&&!type"> Filtered List: {{area}}{{type}}</p>
+  <div  scrollY="true" id="scroll-list">
+    <ion-list color='light' >   
+        <div *ngFor="let user of users">
+          <ion-item  color='light' *ngIf="area == user.area || type == user.type ">
             <ion-avatar slot="start">
               <img src="{{user.profile_pic}}" />
             </ion-avatar>
-            <ion-col >{{user.name}}</ion-col>
+            <ion-col>{{user.name.firstName}} {{user.name.lastName}}</ion-col>
             <ion-col >{{user.position}}</ion-col>
           </ion-item>
-        </ng-container>
-      </ion-item-sliding>
+        </div>
     </ion-list>
   </div>
   
@@ -128,16 +48,17 @@
 
     <label class="filterby">              
       <ion-select [(ngModel)]="type" name="type" placeholder="Filter by Type">
-        <ion-select-option value="null">Please select value</ion-select-option>
         <ion-select-option *ngFor="let type of filterbytype" value={{type}}>  
        {{type}}</ion-select-option>
    </ion-select>
   </label>
-  <ion-button 
-      expand="inline" 
+
+      <!-- <ion-buttons>
+        <ion-button (click)="clearFilter()">
+          <ion-icon name="refresh" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-buttons> -->
       
-      [disabled]="!key"
-      > Clear</ion-button>
-    </ion-row>
-  </div>  -->
+    </ion-row> 
+  </div> 
 </ion-content>

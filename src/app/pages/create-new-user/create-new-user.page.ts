@@ -3,6 +3,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable } from 'rxjs';
 import { ToastController } from '@ionic/angular';
 import {User} from '../../model/model';
+
 @Component({
   selector: 'app-create-new-user',
   templateUrl: './create-new-user.page.html',
@@ -10,9 +11,6 @@ import {User} from '../../model/model';
 })
 export class CreateNewUserPage implements OnInit {
 user: User; 
-name:string;
-firstName:string;
-lastName:string;
 position:string;
 email:string;
 cell:string;
@@ -20,20 +18,39 @@ type:string;
 area:string;
 
 userfilter:Observable<any[]>;
-  constructor(private firedatabase:AngularFireDatabase,public toastController: ToastController) { 
-    this.userfilter = this.firedatabase.list(`userfilter`).valueChanges(); 
-  }
+  filterbyarea:any[];
+  filterbytype:any[];
+  firstName: any;
+  lastName: any;
+  constructor(
+    private firedatabase: AngularFireDatabase,
+    public toastController: ToastController
+    ) { }
 
   ngOnInit() {
+    const areatemp = []
+    const typetemp = []
+    this.userfilter = this.firedatabase.list(`userfilter`).valueChanges();  
+    this.userfilter
+    .subscribe(data => {
+      data.forEach(val =>{
+        if(val.type !== undefined){
+          typetemp.push(`${val.type}`)
+        }
+        if(val.area !== undefined){
+          areatemp.push(`${val.area}`)
+        }      
+      })
+      this.filterbyarea = areatemp
+      this.filterbytype = typetemp
+    })
   }
   creatNewUser(){
     const list = this.firedatabase.list(`/users`)
     list.push({     
       date:Date(),
       id:`${Date.now()}`,
-      name:this.firstName,
-      firstName:this.firstName,
-      lastName:this.lastName,
+      name:{firstName:this.firstName,lastName:this.lastName},
       position: this.position,
       email: this.email,
       cell: this.cell,
@@ -47,9 +64,6 @@ userfilter:Observable<any[]>;
        //this.user = null
        //this.user.reset()
   }
-
-
-
 
   async presentToast() {
     const toast = await this.toastController.create({
@@ -82,16 +96,7 @@ userfilter:Observable<any[]>;
       ]
     });
     await toast.present();
-
     const { role } = await toast.onDidDismiss();
     console.log('onDidDismiss resolved with role', role);
   }
-
 }
-
-
-
-
-
-
-
