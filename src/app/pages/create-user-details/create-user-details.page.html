@@ -1,16 +1,41 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>createUserDetails</ion-title>
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>User Profile</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button routerLink='edit' routerDirection="root">
+        <ion-icon name="create" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="primary">
+      <ion-button (click)="onDeleteUser()"><ion-icon name="trash-outline" slot="icon-only"></ion-icon></ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-Coming soon...
-<ion-button 
-      expand="inline" 
-      (click)="console.log('not done')"
-      [disabled]="!key"
-      > 
-      Edit User
-    </ion-button>
+<ion-content text-center class="vertical-align-content"> 
+  <ion-grid> 
+    <ion-row class="vertical-align-content">
+      <ion-col>     
+        <ion-img style="width:30%;" src="{{profile_pic}}"></ion-img>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid> 
+    <ion-row>
+      <ion-col>    
+        <!-- <ion-item><h1>{{firstName}} {{lastName}}</h1></ion-item>  -->
+        <ion-item><h1>{{name}}</h1></ion-item>    
+        <ion-item> Email: {{email}}</ion-item>      
+        <ion-item>Position: {{position}}</ion-item>
+        <ion-item>Mobile: {{cell}}</ion-item>
+        <ion-item>Type: {{type}}</ion-item>
+        <ion-item>Area: {{area}}</ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

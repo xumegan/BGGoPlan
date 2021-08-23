@@ -1,39 +1,23 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import {User} from '../model/model';
+import { FirebaseService } from '../service/firebase.service';
+import { AngularFireDatabase } from '@angular/fire/database';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
-  // user:User;
-  users:Observable<any[]>;
-  userfilter:Observable<any[]>;
-  typeFilter:any[];
-  area:any[];
-
+export class HomePage implements OnInit {
+  users=[];
   totalUsers:any;
-  currentUser = null;
-  currentIndex = -1;
-  id:any = '';
-  key:string;
-  styleOne: boolean = false;
 
-  successDelete:string;
-  errorDelete:string;
-
+  userfilter:Observable<any[]>;
   filterbyarea:any[];
   filterbytype:any[];
-  filterTerm: string;
-  @Input() user: User;
-  @Output() refreshList: EventEmitter<any> = new EventEmitter();
-  
-  constructor(private firedatabase:AngularFireDatabase,) {
-    this.users = this.firedatabase.list(`users`).valueChanges();
-    this.users.subscribe(items => this.totalUsers = Object.keys(items).length);
+ 
+  constructor(private firebaseService:FirebaseService,private firedatabase: AngularFireDatabase) {
     const areatemp = []
     const typetemp = []
     this.userfilter = this.firedatabase.list(`userfilter`).valueChanges();  
@@ -51,21 +35,45 @@ export class HomePage {
       this.filterbytype = typetemp
     })
   }
- 
-  setActiveUser(user:string, index:number): void{
-    this.currentUser = user
-    this.key =this.currentUser.key
-    this.currentIndex = index;
-    this.styleOne = true;
+
+  ngOnInit() {
+    this.fetchUsers();
+    
+    let userRes = this.firebaseService.getUsers();
+    userRes.snapshotChanges().subscribe(res => {
+      this.users = [];
+      res.forEach(item => {
+        let a = item.payload.toJSON();
+        a['$key'] = item.key;
+        this.users.push(a as User);
+      })
+    });    
   }
 
-  deleteUser(key:string){
-    this.firedatabase.object(`users/${key}`).remove().then(() => {
-      this.successDelete ="You successfully delete it!"
+  fetchUsers() {
+    this.firebaseService.getUsers().valueChanges().subscribe(res => {
+      this.totalUsers = Object.keys(res).length;
+      res.sort((a:any,b:any)=>{
+        if(a.name.lastName < b.name.lastName){
+          if(a.name < b.name){
+            return -1;
+          }
+          if(a.name.lastName > b.name.lastName){
+            if(a.name > b.name){
+              return 1;
+            }
+            return 0;
+          }
+        }
+      })
     })
-    .catch(error => this.errorDelete= error);
-    this.key=''
-  }     
+  }
+  logOut(){
+    this.firebaseService.Logout();
+  }
+// clearFilter(){
+//   //this.user.type = []
+//       this.filterbytype = []
+// }
+
 }
-
-

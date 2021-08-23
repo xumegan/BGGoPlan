@@ -1,82 +1,47 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="success">
     <ion-title>
-      <strong>Response Super-Small Address Book </strong>
+      Response Super-Small Address Book
+      <small> (Total:  {{totalUsers}})</small> 
     </ion-title>
+    <ion-buttons slot="primary">
+      <ion-button routerLink='/create-new-user' routerDirection="root">
+        <ion-icon name="person-add-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="logOut()">
+        <ion-icon name="log-out" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" padding>
-  <div id="container">    
-    <ion-searchbar placeholder="Search..." [(ngModel)]="filterTerm" ></ion-searchbar>
-    <p> Total Users in the System :{{totalUsers}}</p>
-    <div scrollY="true" id="scroll-list">
-      <ion-list>
-        <ion-item-sliding>
-          <ion-item>
-            <ion-col></ion-col>
-            <ion-col><strong>Name</strong></ion-col>
-            <ion-col><strong>Position</strong></ion-col>
-          </ion-item>
-          <ion-item 
-            *ngFor="let user of users| async | filter:filterTerm; let i = index" 
-            [class.active]="i === currentIndex"
-            (click)="setActiveUser(user, i)" 
-          >           
-              <ion-avatar slot="start">
-                <img src="{{user.profile_pic}}" />
-              </ion-avatar>            
-            <ion-col  class="ion-item">{{user.name}}</ion-col>
-            <ion-col class="ion-item">{{user.position}}</ion-col>
-          </ion-item>
-        </ion-item-sliding>
-      </ion-list>
-    </div>
-    <hr>
-  <div>
-    <ion-button 
-      expand="inline" 
-      [disabled]="!key"
-      routerLink="/create-user-details" 
-      routerDirection="root"
-      >View User</ion-button>
-          
-    <ion-button 
-      expand="inline" 
-      routerLink="/create-new-user" 
-      routerDirection="root"
-      >Creat New User</ion-button>      
+<ion-content [fullscreen]="true" padding>    
+  <ion-searchbar  placeholder="Search..." [(ngModel)]="filterTerm"></ion-searchbar> 
     
-    <ion-button 
-      expand="inline" 
-      (click)="deleteUser(key)"
-      [disabled]="!key"
-      > Delete</ion-button>
-  </div>    
+  <div  scrollY="true" id="scroll-list">
+    <ion-card *ngFor="let user of users | filter:filterTerm; " 
+      [routerLink]="['./',user.$key]">  
+        <app-user [user]='user'></app-user>         
+      </ion-card>    
+  </div>
+   
   <hr>
-
-  <p> Filtered List: {{area}}{{type}}</p>
-  <div class="" scrollY="true" id="scroll-list">
-    <ion-list>
-      <ion-item-sliding>
-        <ion-item>
-          <ion-col><strong></strong></ion-col>
-          <ion-col><strong>Name</strong></ion-col>
-          <ion-col><strong>Position</strong></ion-col>
-        </ion-item>
-        <ng-container *ngFor="let user of users | async; let i = index">
-          <ion-item 
-            [class.active]="currentIndex == i"
-            *ngIf="area == user.area || type == user.type "            
-          >
+<div class="bottom"  >
+  <p [hidden]="!area&&!type"> Filtered List: {{area}}{{type}}</p>
+  <div  scrollY="true" id="scroll-list">
+    <ion-list color='light' >   
+        <div *ngFor="let user of users">
+          <ion-item  color='light' *ngIf="area == user.area || type == user.type ">
             <ion-avatar slot="start">
               <img src="{{user.profile_pic}}" />
             </ion-avatar>
-            <ion-col >{{user.name}}</ion-col>
+            <!-- <ion-col>{{user.name.firstName}} {{user.name.lastName}}</ion-col> -->
+            <ion-col>{{user.name}}</ion-col>
             <ion-col >{{user.position}}</ion-col>
           </ion-item>
-        </ng-container>
-      </ion-item-sliding>
+        </div>
     </ion-list>
   </div>
   
@@ -89,11 +54,17 @@
 
     <label class="filterby">              
       <ion-select [(ngModel)]="type" name="type" placeholder="Filter by Type">
-        <ion-select-option value="null">Please select value</ion-select-option>
         <ion-select-option *ngFor="let type of filterbytype" value={{type}}>  
        {{type}}</ion-select-option>
    </ion-select>
   </label>
-    </ion-row>
+
+      <!-- <ion-buttons>
+        <ion-button (click)="clearFilter()">
+          <ion-icon name="refresh" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-buttons> -->
+      
+    </ion-row> 
   </div> 
 </ion-content>

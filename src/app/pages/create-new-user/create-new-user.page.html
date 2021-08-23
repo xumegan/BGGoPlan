@@ -1,42 +1,55 @@
+<!-- this file is going to change a lot, it will upload picture -->
+
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
     <ion-title>Create New User</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <form #form="ngForm" (ngSubmit)="creatNewUser()">
-    <ion-item>
-      <ion-label>Name:</ion-label>
-      <ion-input type="text" [(ngModel)]="name" ngControl="name" name="name"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>Position:</ion-label>
-      <ion-input type="text" [(ngModel)]="position" name="position"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>Email:</ion-label>
-      <ion-input type="text" [(ngModel)]="email" name="email"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>Cell:</ion-label>
-      <ion-input type="text" [(ngModel)]="cell" name="cell"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>Area:</ion-label>
-      <select [(ngModel)]="area" name="area">
-        <option *ngFor="let a of userfilter |async" value={{a.area}}>{{a.area}}</option>
-     </select>
-     
-    </ion-item> 
-    <ion-item>
-      <ion-label>Type:</ion-label>
-      <select [(ngModel)]="type" name="type">
-        <option *ngFor="let t of userfilter |async" value={{t.type}}>{{t.type}}</option>
-     </select>
-    </ion-item> 
-    <ion-button ion-button type="submit" block>Submit</ion-button>
-    <ion-button expand="inline" routerLink="/home" routerDirection="root">Back to Home</ion-button>
-  </form>
-</ion-content>
+<ion-content text-center padding class="vertical-align-content">
+  <ion-grid> 
+    <ion-row>
+      <ion-col>     
+        <img src="../../../assets/shapes.svg">
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid>
+  <!-- <form #form="ngForm" (ngSubmit)="creatNewUser()"> -->
+    <form #form="ngForm" (ngSubmit)="creatNewUser()">
+      <ion-item>
+        <ion-label>Name:</ion-label>
+        <ion-input type="text" [(ngModel)]="name" ngControl="name" name="name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Position:</ion-label>
+        <ion-input type="text" [(ngModel)]="position" name="position"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Email:</ion-label>
+        <ion-input type="text" [(ngModel)]="email" name="email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Cell:</ion-label>
+        <ion-input type="text" [(ngModel)]="cell" name="cell"></ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>Area:</ion-label>
+        <select [(ngModel)]="area" name="area">
+          <option *ngFor="let a of userfilter |async" value={{a.area}}>{{a.area}}</option>
+       </select>
+       
+      </ion-item> 
+      <ion-item>
+        <ion-label>Type:</ion-label>
+        <select [(ngModel)]="type" name="type">
+          <option *ngFor="let t of userfilter |async" value={{t.type}}>{{t.type}}</option>
+       </select>
+      </ion-item> 
+      <ion-button ion-button type="submit" block>Submit</ion-button>
+    </form>
+    

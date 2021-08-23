@@ -1,0 +1,13 @@
+img {
+// margin-left: 25vw;
+border-radius: 50%;
+max-width: 25px;
+max-height: 25px;
+}
+.vertical-align-content > *
+{
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  // height: 100%;
+}

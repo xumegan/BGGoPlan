@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">      
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Edit User Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="vertical-align-content">
+  <ion-grid > 
+    <ion-row class="vertical-align-content">
+      <ion-col>     
+        <ion-img  style="width:30%;" src="{{profile_pic}}"></ion-img>
+      </ion-col>
+    </ion-row>
+  </ion-grid> 
+
+  <form> 
+    <ion-list>
+      <ion-item>
+        <ion-label  required position="stacked"> Name:</ion-label>
+        <ion-input type="text" [(ngModel)]="name" name="name"></ion-input> 
+      </ion-item>
+      <!-- <ion-item>
+        <ion-label  required position="stacked">First Name:</ion-label>
+        <ion-input type="text" [(ngModel)]="firstName" name="firstName"></ion-input> 
+      </ion-item>
+      <ion-item>
+        <ion-label required position="stacked">Last Name:</ion-label>
+        <ion-input type="text" [(ngModel)]="lastName" name="lastName"></ion-input>
+      </ion-item> -->
+      <ion-item>
+        <ion-label  required position="stacked">Email:</ion-label>
+        <ion-input type="text" [(ngModel)]="email" name="email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label  required position="stacked">Position:</ion-label>
+        <ion-input type="text" [(ngModel)]="position" name="position"></ion-input>
+      </ion-item> 
+      <ion-item>
+      <ion-label  position="stacked">Mobile:</ion-label>
+      <ion-input type="text" [(ngModel)]="cell" name="cell"></ion-input>
+      </ion-item>  
+      <ion-item> 
+      <ion-label  position="stacked">Type:</ion-label>
+      <select [(ngModel)]="type" name="type">
+        <option *ngFor="let type of filterbytype" value={{type}}>{{type}}</option>
+      </select>
+      </ion-item>
+      <ion-item> 
+      <ion-label  position="stacked">Area:</ion-label>
+      <select [(ngModel)]="area" name="area">
+        <option *ngFor="let area of filterbyarea" value={{area}}>{{area}}</option>
+      </select>
+      </ion-item>   
+   
+      <ion-button color="success" type="submit" (click)="updateprofile()">Update</ion-button>
+    </ion-list>
+  </form>
+</ion-content> 

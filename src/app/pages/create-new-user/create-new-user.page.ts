@@ -1,3 +1,6 @@
+//this file is going to change a lot, it will upload picture
+
+
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable } from 'rxjs';
@@ -8,6 +11,7 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./create-new-user.page.scss'],
 })
 export class CreateNewUserPage implements OnInit {
+  private basePath = '/contacts';
 //user: User; should working on it later
 name:string;
 // key:string;will be the same key
@@ -25,7 +29,7 @@ userfilter:Observable<any[]>;
   ngOnInit() {
   }
   creatNewUser(){
-    const list = this.firedatabase.list(`/users`)
+    const list = this.firedatabase.list(this.basePath)
     list.push({     
       date:Date(),
       id:`${Date.now()}`,
@@ -91,3 +95,57 @@ userfilter:Observable<any[]>;
 
 
 
+
+
+
+
+
+
+
+
+
+// //later user
+// // async toast(message, status){
+//   //   const toast = await this.toastController.create({
+//   //     message:message,
+//   //     color:status,
+//   //     position:'middle',
+//   //     duration:2000
+//   //   })
+//   //  toast.present();
+//   // };//end toast
+
+
+//   // this.router.navigate(['/home']);
+//   // this.firstName ='';
+//   // this.lastName ='';
+//   //     this.position ='';
+//   //      this.email ='';
+//   //      this.cell ='';
+//   //     this.type ='' ;
+//   //    this.area ='';
+//   //    this.selectedFiles = undefined;
+
+
+//   // selectFile(event): void {
+//   //   this.selectedFiles = event.target.files;
+//   //   const file = this.selectedFiles.item(0);  
+//   //   const filePath = `${'/users'}/${file}`;
+//   //   const storageRef = this.storage.ref(filePath);
+//   //   const uploadUser = this.storage.upload(filePath, file);
+//   //    let urll =''; 
+//   //   uploadUser.snapshotChanges().pipe(
+//   //     finalize(() => {            
+//   //       storageRef.getDownloadURL().subscribe(downloadURL => {
+//   //        urll = downloadURL;        
+//   //        console.log(urll) 
+//   //        console.log(downloadURL)
+//   //        this.url=downloadURL
+//   //        this.saveFiletoDatabase() 
+//   //       });
+//   //       console.log(urll) 
+//   //     })//end pip
+//   //   //  this.url =urll
+//   //  // console.log(urll) 
+//   //   ).subscribe();
+//   // }
