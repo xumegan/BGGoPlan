@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home',pathMatch: 'full'},
@@ -15,8 +16,8 @@ const routes: Routes = [
         path:':userId',//
         loadChildren: () => import('./pages/create-user-details/create-user-details.module').then( m => m.CreateUserDetailsPageModule)//
       },
-      
-    ] 
+    ],
+    canActivate:[AuthGuard] 
   },
   
   {
@@ -28,12 +29,17 @@ const routes: Routes = [
   //   loadChildren: () => import('./pages/create-user-details/create-user-details.module').then( m => m.CreateUserDetailsPageModule)
   // },
   {
-    path: 'login',
+    path: 'login',//login
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
   {
-    path: 'edit-profile',
-    loadChildren: () => import('./pages/edit-profile/edit-profile.module').then( m => m.EditProfilePageModule)
+    path: 'edit-profile',//profile-edit
+    loadChildren: () => import('./pages/edit-profile/edit-profile.module').then( m => m.EditProfilePageModule),
+   // canActivate:[AuthGuard] 
+  },
+  {
+    path: 'signup',//register
+    loadChildren: () => import('./pages/signup/signup.module').then( m => m.SignupPageModule)
   },
   
 ];

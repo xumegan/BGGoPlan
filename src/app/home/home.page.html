@@ -9,6 +9,11 @@
         <ion-icon name="person-add-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="logOut()">
+        <ion-icon name="log-out" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -32,7 +37,8 @@
             <ion-avatar slot="start">
               <img src="{{user.profile_pic}}" />
             </ion-avatar>
-            <ion-col>{{user.name.firstName}} {{user.name.lastName}}</ion-col>
+            <!-- <ion-col>{{user.name.firstName}} {{user.name.lastName}}</ion-col> -->
+            <ion-col>{{user.name}}</ion-col>
             <ion-col >{{user.position}}</ion-col>
           </ion-item>
         </div>

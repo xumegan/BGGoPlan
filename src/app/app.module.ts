@@ -13,6 +13,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { FirebaseService } from './service/firebase.service';
+import { AuthGuard } from './guards/auth.guard';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -23,11 +24,12 @@ import { FirebaseService } from './service/firebase.service';
     AngularFireDatabaseModule,
     AngularFireStorageModule,
     AngularFireAuthModule,
-    //FirebaseService,
   ],
   providers: [{ provide: RouteReuseStrategy, 
     useClass: IonicRouteStrategy },
     FirebaseService,
+    
+    AuthGuard
   ],
   bootstrap: [AppComponent],
 })

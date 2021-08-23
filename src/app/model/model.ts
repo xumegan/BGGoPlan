@@ -1,6 +1,6 @@
 export class User{
   //interface
-  id:string;
+  userId:string;
   name:string;
   firstName:string;
   lastName:string;
@@ -11,6 +11,7 @@ export class User{
   area:string;
   key: string;
   url: string; 
+  createAt: string; 
 profile_pic: File;
 
   constructor(file: File) {

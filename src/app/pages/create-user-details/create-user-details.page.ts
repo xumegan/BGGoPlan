@@ -12,13 +12,14 @@ import { FirebaseService } from 'src/app/service/firebase.service';
 export class CreateUserDetailsPage implements OnInit {
   userId:any;
   email:string;
+  name:string;
   firstName:string;
   lastName:string;
   position:string;
   cell:string;
   type:string; 
   area:string;
-
+  profile_pic:string;
   constructor(
     private actRoute:ActivatedRoute, 
     private firebaseService:FirebaseService,
@@ -31,9 +32,11 @@ export class CreateUserDetailsPage implements OnInit {
     this.firebaseService.getUser(this.userId)
     .valueChanges().subscribe(res => {
       this.email=res.email;
-      this.firstName=res.name.firstName;
-      this.lastName=res.name.lastName;
+      this.name=res.name;
+      // this.firstName=res.name.firstName;
+      // this.lastName=res.name.lastName;
       this.position=res.position;
+      this.profile_pic=res.profile_pic
       this.cell=res.cell;
       this.area=res.area; 
       this.type=res.type;

@@ -1,44 +1,35 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth'
-//import { auth } from 'firebase/app'
-//import { UserService } from '../user.service';
-import { Router } from '@angular/router';
-
+import { ToastController } from '@ionic/angular';
+import { FirebaseService } from 'src/app/service/firebase.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-username: string = ""
-	password: string = ""
-  
+  email:string;
+  password:string; 
 
-	constructor(public afAuth: AngularFireAuth,  public router: Router) { }
-//public user: UserService,
-	ngOnInit() {
+	constructor(
+    private auth:FirebaseService,
+    private toastController: ToastController) { }
+	
+  ngOnInit() {}
+
+  login() {
+    if(this.email&&this.password){
+      this.auth.loginUser(this.email,this.password)
+    }else{
+      this.toast('please enter you email and passward','warning')
+    }	
 	}
-
-	// async login() {
-	// 	const { username, password } = this
-	// 	try {
-			// kind of a hack. 
-			// const res = await this.afAuth.signInWithEmailAndPassword(username + '@codedamn.com', password)
-			
-			// if(res.user) {
-			// 	this.user.setUser({
-			// 		username,
-			// 		uid: res.user.uid
-			// 	})
-			// 	this.router.navigate(['/users'])
-			// }
-		
-	// 	} catch(err) {
-	// 		console.dir(err)
-	// 		if(err.code === "auth/user-not-found") {
-	// 			console.log("User not found")
-	// 		}
-	// 	}
-	// }
-
+  async toast(message, status){
+    const toast = await this.toastController.create({
+      message:message,
+      color:status,
+      position:'middle',
+      duration:2000
+    })
+   toast.present();
+  }
 }

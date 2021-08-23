@@ -1,16 +1,20 @@
+//this file is going to change a lot, it will upload picture
+
+
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable } from 'rxjs';
 import { ToastController } from '@ionic/angular';
-import {User} from '../../model/model';
-
 @Component({
   selector: 'app-create-new-user',
   templateUrl: './create-new-user.page.html',
   styleUrls: ['./create-new-user.page.scss'],
 })
 export class CreateNewUserPage implements OnInit {
-user: User; 
+  private basePath = '/contacts';
+//user: User; should working on it later
+name:string;
+// key:string;will be the same key
 position:string;
 email:string;
 cell:string;
@@ -18,39 +22,18 @@ type:string;
 area:string;
 
 userfilter:Observable<any[]>;
-  filterbyarea:any[];
-  filterbytype:any[];
-  firstName: any;
-  lastName: any;
-  constructor(
-    private firedatabase: AngularFireDatabase,
-    public toastController: ToastController
-    ) { }
+  constructor(private firedatabase:AngularFireDatabase,public toastController: ToastController) { 
+    this.userfilter = this.firedatabase.list(`userfilter`).valueChanges(); 
+  }
 
   ngOnInit() {
-    const areatemp = []
-    const typetemp = []
-    this.userfilter = this.firedatabase.list(`userfilter`).valueChanges();  
-    this.userfilter
-    .subscribe(data => {
-      data.forEach(val =>{
-        if(val.type !== undefined){
-          typetemp.push(`${val.type}`)
-        }
-        if(val.area !== undefined){
-          areatemp.push(`${val.area}`)
-        }      
-      })
-      this.filterbyarea = areatemp
-      this.filterbytype = typetemp
-    })
   }
   creatNewUser(){
-    const list = this.firedatabase.list(`/users`)
+    const list = this.firedatabase.list(this.basePath)
     list.push({     
       date:Date(),
       id:`${Date.now()}`,
-      name:{firstName:this.firstName,lastName:this.lastName},
+      name:this.name,
       position: this.position,
       email: this.email,
       cell: this.cell,
@@ -64,6 +47,9 @@ userfilter:Observable<any[]>;
        //this.user = null
        //this.user.reset()
   }
+
+
+
 
   async presentToast() {
     const toast = await this.toastController.create({
@@ -96,7 +82,70 @@ userfilter:Observable<any[]>;
       ]
     });
     await toast.present();
+
     const { role } = await toast.onDidDismiss();
     console.log('onDidDismiss resolved with role', role);
   }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// //later user
+// // async toast(message, status){
+//   //   const toast = await this.toastController.create({
+//   //     message:message,
+//   //     color:status,
+//   //     position:'middle',
+//   //     duration:2000
+//   //   })
+//   //  toast.present();
+//   // };//end toast
+
+
+//   // this.router.navigate(['/home']);
+//   // this.firstName ='';
+//   // this.lastName ='';
+//   //     this.position ='';
+//   //      this.email ='';
+//   //      this.cell ='';
+//   //     this.type ='' ;
+//   //    this.area ='';
+//   //    this.selectedFiles = undefined;
+
+
+//   // selectFile(event): void {
+//   //   this.selectedFiles = event.target.files;
+//   //   const file = this.selectedFiles.item(0);  
+//   //   const filePath = `${'/users'}/${file}`;
+//   //   const storageRef = this.storage.ref(filePath);
+//   //   const uploadUser = this.storage.upload(filePath, file);
+//   //    let urll =''; 
+//   //   uploadUser.snapshotChanges().pipe(
+//   //     finalize(() => {            
+//   //       storageRef.getDownloadURL().subscribe(downloadURL => {
+//   //        urll = downloadURL;        
+//   //        console.log(urll) 
+//   //        console.log(downloadURL)
+//   //        this.url=downloadURL
+//   //        this.saveFiletoDatabase() 
+//   //       });
+//   //       console.log(urll) 
+//   //     })//end pip
+//   //   //  this.url =urll
+//   //  // console.log(urll) 
+//   //   ).subscribe();
+//   // }
