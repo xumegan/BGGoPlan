@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { FirebaseService } from 'src/app/service/firebase.service';
 @Component({
   selector: 'app-login',
@@ -12,14 +12,23 @@ export class LoginPage implements OnInit {
 
 	constructor(
     private auth:FirebaseService,
-    private toastController: ToastController) { }
+    private toastController: ToastController,
+    private loadingCtrl: LoadingController,
+    ) { }
 	
   ngOnInit() {}
 
-  login() {
+  async login() {
     if(this.email&&this.password){
+      const loading = await this.loadingCtrl.create({
+        message:'Authenticating ...',
+        spinner:'crescent',
+        showBackdrop:true
+      })
+      loading.present()
       this.auth.loginUser(this.email,this.password)
     }else{
+     // loading.dismiss()
       this.toast('please enter you email and passward','warning')
     }	
 	}
