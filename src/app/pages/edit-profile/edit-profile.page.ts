@@ -72,7 +72,7 @@ export class EditProfilePage implements OnInit {
   }
   async updateprofile(){
    
-    this.firedatabase.list(`/users`).update(this.userId,{
+    this.firedatabase.list(`/contacts`).update(this.userId,{
       'editAt':Date(),
      // name:{firstName:this.firstName,lastName:this.lastName},
       name:this.name,
