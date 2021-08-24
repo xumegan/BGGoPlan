@@ -8,13 +8,13 @@
 </ion-header>
 
 <ion-content class="vertical-align-content">
-  <ion-grid > 
-    <ion-row class="vertical-align-content">
+  <ion-grid> 
+    <ion-row>
       <ion-col>     
-        <ion-img  style="width:30%;" src="{{profile_pic}}"></ion-img>
+        <img src="{{profile_pic}}">
       </ion-col>
     </ion-row>
-  </ion-grid> 
+  </ion-grid>
 
   <form> 
     <ion-list>
@@ -22,14 +22,6 @@
         <ion-label  required position="stacked"> Name:</ion-label>
         <ion-input type="text" [(ngModel)]="name" name="name"></ion-input> 
       </ion-item>
-      <!-- <ion-item>
-        <ion-label  required position="stacked">First Name:</ion-label>
-        <ion-input type="text" [(ngModel)]="firstName" name="firstName"></ion-input> 
-      </ion-item>
-      <ion-item>
-        <ion-label required position="stacked">Last Name:</ion-label>
-        <ion-input type="text" [(ngModel)]="lastName" name="lastName"></ion-input>
-      </ion-item> -->
       <ion-item>
         <ion-label  required position="stacked">Email:</ion-label>
         <ion-input type="text" [(ngModel)]="email" name="email"></ion-input>
@@ -53,8 +45,7 @@
       <select [(ngModel)]="area" name="area">
         <option *ngFor="let area of filterbyarea" value={{area}}>{{area}}</option>
       </select>
-      </ion-item>   
-   
+      </ion-item>      
       <ion-button color="success" type="submit" (click)="updateprofile()">Update</ion-button>
     </ion-list>
   </form>

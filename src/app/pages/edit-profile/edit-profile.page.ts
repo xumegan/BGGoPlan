@@ -4,7 +4,8 @@ import { User } from 'src/app/model/model';
 import { Observable } from 'rxjs';
 import { FirebaseService } from 'src/app/service/firebase.service';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { ToastController } from '@ionic/angular';
+import { ToastController,LoadingController } from '@ionic/angular';
+
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.page.html',
@@ -32,6 +33,7 @@ export class EditProfilePage implements OnInit {
     private router: Router,
     private firedatabase: AngularFireDatabase,
     private toastController: ToastController,
+    private loadingCtrl:LoadingController
     ) { 
   }
 
@@ -71,8 +73,13 @@ export class EditProfilePage implements OnInit {
     })
   }
   async updateprofile(){
-   
-    this.firedatabase.list(`/contacts`).update(this.userId,{
+   const loading = await this.loadingCtrl.create({
+        message:'Authenticating ...',
+        spinner:'crescent',
+        showBackdrop:true
+      })
+      loading.present()
+    this.firedatabase.list(`/users`).update(this.userId,{
       'editAt':Date(),
      // name:{firstName:this.firstName,lastName:this.lastName},
       name:this.name,
@@ -85,6 +92,9 @@ export class EditProfilePage implements OnInit {
     }).then(()=>{
       this.toast('Udate done!!','success');
       this.router.navigate([`/home/${this.userId}`])
+    }).catch(error=>{
+      loading.dismiss()
+      this.toast(error.message,'danger')
     })
 
   }

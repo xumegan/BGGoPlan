@@ -5,88 +5,79 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable } from 'rxjs';
 import { ToastController } from '@ionic/angular';
+import { FirebaseService } from 'src/app/service/firebase.service';
+import { FileUpload } from 'src/app/model/file-upload';
+import { User } from 'src/app/model/model';
+
 @Component({
   selector: 'app-create-new-user',
   templateUrl: './create-new-user.page.html',
   styleUrls: ['./create-new-user.page.scss'],
 })
 export class CreateNewUserPage implements OnInit {
-  private basePath = '/contacts';
+  private basePath = '/users';
 //user: User; should working on it later
 name:string;
 // key:string;will be the same key
-position:string;
-email:string;
-cell:string;
-type:string; 
-area:string;
-
+ position:string;
+ email:string;
+ cell:string;
+ type:string; 
+ area:string;
+profile_pic:string;
+//selectedFiles:any;
 userfilter:Observable<any[]>;
-  constructor(private firedatabase:AngularFireDatabase,public toastController: ToastController) { 
+selectedFiles: FileList;
+currentFileUpload: FileUpload;
+currentUser:User;
+  constructor(private firedatabase:
+    AngularFireDatabase,
+    private firebaseService:FirebaseService,
+    public toastController: ToastController,
+    ) { 
+
     this.userfilter = this.firedatabase.list(`userfilter`).valueChanges(); 
+    //this.userfilter=firedatabase.getFilter(filter)
   }
 
   ngOnInit() {
   }
-  creatNewUser(){
-    const list = this.firedatabase.list(this.basePath)
-    list.push({     
-      date:Date(),
-      id:`${Date.now()}`,
-      name:this.name,
-      position: this.position,
-      email: this.email,
-      cell: this.cell,
-      type:this.type, 
-      area:this.area,
-      profile_pic:"https://firebasestorage.googleapis.com/v0/b/fir-authreact-f0c50.appspot.com/o/products%2F2.jpg?alt=media&token=316ddc5b-f0c1-4b0c-804a-d97e43f057f5"
-    }).then(ref=>{
-      this.firedatabase.object(`users/${ref.key}`).update({ key:ref.key})
-  });
-    this.presentToast()
-       //this.user = null
-       //this.user.reset()
+
+  selectFile(event): void {this.selectedFiles = event.target.files;}
+  inputName (event) {this.name =event.target.value}
+  // inputlastName (event): void {this.lastName =event.target.value}
+   inputposition (event): void {this.position =event.target.value}
+   inputemail(event): void {this.email =event.target.value}
+   inputcell(event): void {this.cell =event.target.value}
+   inputtype(event): void {this.type =event.target.value}
+   inputarea(event): void {this.area =event.target.value}
+   creatNewUser(): void {
+    const file = this.selectedFiles.item(0);
+    this.selectedFiles = undefined;
+
+    this.currentFileUpload = new FileUpload(file);
+    this.currentUser ={
+      userId:'this.userId',
+      name:this.name,//
+      position:this.position,//
+      email:this.email,//
+      cell:this.cell,//
+      type:this.type, //
+      area:this.area,//
+      key: 'this.key', 
+      createAt: 'this.createAt',
+    } 
+    this.firebaseService.createUser(this.currentUser,this.currentFileUpload)
   }
-
-
-
-
-  async presentToast() {
+  async toast(message, status){
     const toast = await this.toastController.create({
-      message: 'Your settings have been saved.',
-      duration: 2000
-    });
-    toast.present();
+      message:message,
+      color:status,
+      position:'middle',
+      duration:2000
+    })
+   toast.present();
   }
-
-  async presentToastWithOptions() {
-    const toast = await this.toastController.create({
-      header: 'Toast header',
-      message: 'Click to Close',
-      position: 'top',
-      buttons: [
-        {
-          side: 'start',
-          icon: 'star',
-          text: 'Favorite',
-          handler: () => {
-            console.log('Favorite clicked');
-          }
-        }, {
-          text: 'Done',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }
-      ]
-    });
-    await toast.present();
-
-    const { role } = await toast.onDidDismiss();
-    console.log('onDidDismiss resolved with role', role);
-  }
-
 }
 
 

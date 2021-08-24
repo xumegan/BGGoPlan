@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="success">
-    <ion-title>Welcome to BGGoPlan!! Please Sign In</ion-title>
+    <ion-title>Welcome to BGGoPlan!! <srong> Sign In</srong></ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -19,6 +19,6 @@
     </ion-list>
     </form>
   <div>
-    <a [routerLink]="['/signup']"><p>donot have an account?</p></a>
+    <a [routerLink]="['/signup']" [disabled]="!name||!email"><p>donot have an account?</p></a>
   </div>
 </ion-content>

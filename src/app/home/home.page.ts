@@ -33,6 +33,7 @@ export class HomePage implements OnInit {
       })
       this.filterbyarea = areatemp
       this.filterbytype = typetemp
+      console.log(typeof(this.filterbytype))
     })
   }
 

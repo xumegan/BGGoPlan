@@ -25,4 +25,19 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-
+img {
+  border-radius: 50%;
+    max-width: 200px;
+    max-height: 200px;
+    width: 200px;
+    height: 200px;
+  }
+  select{
+    border: none;
+  }
+  .vertical-align-content > *{
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important; 
+  }
+  
