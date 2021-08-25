@@ -15,18 +15,18 @@ import { FileUpload } from '../model/file-upload';
   providedIn: 'root'
 })
 export class FirebaseService {
-userRef:AngularFireObject<any>;
-usersRef:AngularFireList<any>;
-filterRef:Observable<any[]>;
-user$:Observable<User>;
-users:User[];
+  userRef:AngularFireObject<any>;
+  usersRef:AngularFireList<any>;
+  filterRef:Observable<any[]>;
+  user$:Observable<User>;
+  users:User[];
 
-userfilter:Observable<any>;
+  userfilter:Observable<any>;
   filterbyarea:any[];
   filterbytype:any[];
-private basePath = '/users';
-//private basePath = '/contacts';
-private filterPath = '/userfilter';
+  private basePath = '/users';
+  //private basePath = '/contacts';
+  private filterPath = '/userfilter';
 
   constructor(
     private db: AngularFireDatabase, 
@@ -35,19 +35,17 @@ private filterPath = '/userfilter';
     private loadingCtrl: LoadingController,
     private toastController: ToastController,
     private router:Router
-    ) {
+    ){
       this.user$ = this.afAuth.authState.pipe(
-  switchMap(user=>{
-    if(user){
-      return this.db.list(this.basePath).valueChanges();
-    }else{
-      return of(null)
-    
-    }
-  })
-        )
-
-     } //end of constructor
+    switchMap(user=>{
+      if(user){
+        return this.db.list(this.basePath).valueChanges();
+      }else{
+        return of(null)
+      }
+    })
+  )
+} 
 
 getUsers() {
   this.usersRef = this.db.list(this.basePath);

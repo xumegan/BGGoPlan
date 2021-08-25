@@ -20,15 +20,8 @@ export class LoginPage implements OnInit {
 
   async login() {
     if(this.email&&this.password){
-      // const loading = await this.loadingCtrl.create({
-      //   message:'Authenticating ...',
-      //   spinner:'crescent',
-      //   showBackdrop:true
-      // })
-      // loading.present()
       this.auth.loginUser(this.email,this.password)
     }else{
-     // loading.dismiss()
       this.toast('please enter you email and passward','warning')
     }	
 	}
