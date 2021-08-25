@@ -27,23 +27,22 @@ export class CreateUserDetailsPage implements OnInit {
     private alertCtl:AlertController, 
     ) { }
 
-  ngOnInit() {
-    this.fetchData();   
+  ngOnInit(): void {
+    this.fetchData(); 
   } 
     
   fetchData(){
     this.userId = this.actRoute.snapshot.paramMap.get('userId');
     this.firebaseService.getUser(this.userId)
     .valueChanges().subscribe(res => {
-      console.log(res)
-      this.email=res.email ||'';
-      this.name=res.name ||'';
-      this.position=res.position ||'';
-      this.profile_pic=res.profile_pic||'';
-      this.cell=res.cell||'';
-      this.area=res.area||''; 
-      this.type=res.type||'';
-      this.key=res.key||'';
+      this.email=res.email;
+      this.name=res.name;
+      this.position=res.position;
+      this.profile_pic=res.profile_pic;
+      this.cell=res.cell;
+      this.area=res.area; 
+      this.type=res.type;
+      this.key=res.key;
       this.fileName=res.fileName;
     });
   }
@@ -58,12 +57,12 @@ export class CreateUserDetailsPage implements OnInit {
       },{
         text:'delete',
         handler:()=>{
-          console.log(this.fileName)
           this.firebaseService.deleteFileDatabase(this.userId).then(() => {
             this.firebaseService.deleteFileStorage(this.fileName);
-          }).then(()=>{this.fetchData();this.router.navigate(['/home'])})
-          .catch(error => console.log(error));
-        }
+          }).then(()=>{
+            this.fetchData();this.router.navigate(['/home'])}).catch(
+              // error => console.log(error)
+              )}
       }]
     }).then(alertEl=>{
       alertEl.present();

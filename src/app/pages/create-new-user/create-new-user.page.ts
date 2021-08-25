@@ -47,7 +47,6 @@ export class CreateNewUserPage implements OnInit {
         })
         this.filterbyarea = areatemp
         this.filterbytype = typetemp
-        console.log(typeof(this.filterbytype))
       })
   }
 

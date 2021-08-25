@@ -48,9 +48,9 @@
             <ion-avatar slot="start">
               <ion-img src="{{profile_pic}}" onerror= "this.src='//via.placeholder.com/200'"></ion-img>
             </ion-avatar>
-            <ion-col>{{user.name}}</ion-col>
-            <ion-col >{{user.position}}</ion-col>
-            <ion-col >{{user.cell}}</ion-col>
+            <ion-col>{{user?.name}}</ion-col>
+            <ion-col >{{user?.position}}</ion-col>
+            <ion-col >{{user?.cell}}</ion-col>
           </ion-item>
         </div>
     </ion-list>
