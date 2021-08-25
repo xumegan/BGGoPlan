@@ -8,7 +8,6 @@ import { finalize,switchMap } from 'rxjs/operators';
 import { LoadingController,ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
-import { Filter } from '../model/filter';
 import { FileUpload } from '../model/file-upload';
 
 
@@ -63,26 +62,15 @@ getUser(id: string) {
   updateUser(id, user: User) {
     return this.userRef.update({
       name:user.name,
-      //{firstName:user.firstName,lastName:user.lastName},
       email: user.email,
       position: user.position,
       cell: user.cell,
       type:user.type, 
       area:user.area,
-     // profile_pic:"https://firebasestorage.googleapis.com/v0/b/fir-authreact-f0c50.appspot.com/o/products%2F2.jpg?alt=media&token=316ddc5b-f0c1-4b0c-804a-d97e43f057f5"
+    //  profile_pic:user.profile_pic,
     })
   }
 
-
-
-  deleteUser(userId: string): void {
-    this.deleteFileDatabase(userId).then(() => {
-        this.deleteFileStorage(userId);
-      })
-      .catch(error => console.log(error));
-  }
-
- 
   getFilter(filter:string){
    // userfilter:{}
     const areatemp = []
@@ -97,16 +85,8 @@ getUser(id: string) {
           return   this.filterbyarea.push(`${val.area}`)
         }      
       })
-    //return  this.filterbyarea = areatemp
-    //  this.filterbytype = typetemp
-      //console.log(this.filterbyarea)
-     // console.log(this.filterbyarea)
     })
-   //this.filterRef = this.db.list(this.filterPath).valueChanges(); 
-   // return this.filterRef 
   }
-
-
 
 signUpUser(email:string, password:string):Promise<any>{
   return this.afAuth.createUserWithEmailAndPassword(email, password)
@@ -119,21 +99,16 @@ async loginUser(email:string, password:string){
     showBackdrop:true
   })
   loading.present()
-  this.afAuth.setPersistence(firebase.default.auth.Auth.Persistence.LOCAL)
-  .then(()=>{
-    this.afAuth.signInWithEmailAndPassword(email, password)
-    .then((data)=>{
-      if(!data.user.emailVerified)
-    {
-loading.dismiss();
-this.router.navigate(['/home'])
+  this.afAuth.setPersistence(firebase.default.auth.Auth.Persistence.LOCAL).then(()=>{
+    this.afAuth.signInWithEmailAndPassword(email, password).then((data)=>{
+      if(!data.user.emailVerified){
+      loading.dismiss();
+      this.router.navigate(['/home'])
     }
-  })
-  .catch(error =>{
+  }).catch(error =>{
     loading.dismiss();
     this.toast(error.message,'danger')
-  })
-    
+    }) 
   }).catch(error =>{
     loading.dismiss();
     this.toast(error.message,'danger')
@@ -154,10 +129,6 @@ this.router.navigate(['/home'])
    })
  } 
 
-
-
-
-///for upload file
 async createUser(user:User,fileUpload: FileUpload) {
   const loading = await this.loadingCtrl.create({
     message:'Creating ...',
@@ -192,17 +163,16 @@ async createUser(user:User,fileUpload: FileUpload) {
   ).subscribe();
 }
 
-private deleteFileDatabase(key: string): Promise<void> {
+deleteFileDatabase(key: string): Promise<void> {
   return this.db.list(this.basePath).remove(key);
 }
 
-private deleteFileStorage(name: string): void {
+deleteFileStorage(name: string): void {
   const storageRef = this.storage.ref(this.basePath);
   storageRef.child(name).delete();
 }
 
-  private async saveallData(user: User,fileUpload: FileUpload){
-    
+  private async saveallData(user: User,fileUpload: FileUpload){    
     this.db.list(this.basePath).push({
       email: user.email,
       fileName:fileUpload.filename,

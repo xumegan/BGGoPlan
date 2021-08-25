@@ -33,13 +33,11 @@ export class HomePage implements OnInit {
       })
       this.filterbyarea = areatemp
       this.filterbytype = typetemp
-      console.log(typeof(this.filterbytype))
     })
   }
 
   ngOnInit() {
-    this.fetchUsers();
-    
+    this.fetchUsers();    
     let userRes = this.firebaseService.getUsers();
     userRes.snapshotChanges().subscribe(res => {
       this.users = [];

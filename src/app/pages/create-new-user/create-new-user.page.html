@@ -1,5 +1,3 @@
-<!-- this file is going to change a lot, it will upload picture -->
-
 <ion-header>
   <ion-toolbar color="success">
     <ion-buttons slot="start">
@@ -12,8 +10,9 @@
 <ion-content text-center padding class="vertical-align-content">
   <ion-grid> 
     <ion-row>
-      <ion-col>     
-        <img src="https://via.placeholder.com/200">
+      <ion-col>   
+        <!-- <img *ngIf="img1" [src]="img1">   -->
+        <img *ngIf="img1" [src]="img1" onerror= "this.src='//via.placeholder.com/200'">
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -21,7 +20,7 @@
 
   <form >
     <label></label>
-      <input type="file"(change)="selectFile($event)"/>
+      <input type="file"(change)="selectFile($event)" id="imgInp"/>
     <ion-item>
       <ion-label>Name:</ion-label>
       <ion-input type="text" [(ngModel)]="name" ngControl="name" name="name"></ion-input>
@@ -38,25 +37,20 @@
       <ion-label>Cell:</ion-label>
       <ion-input type="text" [(ngModel)]="cell" name="cell"></ion-input>
     </ion-item>
-
     <ion-item>
-      <ion-label>Area:</ion-label>
-      <select [(ngModel)]="area" name="area">
-        <option *ngFor="let a of userfilter |async" value={{a.area}}>{{a.area}}</option>
-     </select>
-     
-    </ion-item> 
-    <ion-item>
-      <ion-label>Type:</ion-label>
+    <ion-label  position="stacked">Type:</ion-label>
       <select [(ngModel)]="type" name="type">
-        <option *ngFor="let t of userfilter |async" value={{t.type}}>{{t.type}}</option>
-     </select>
-    </ion-item> 
-
-    <ion-button type="submit" [disabled]="!type||!name||!position||!email||!cell||!area" (click)="creatNewUser()" block>Submit</ion-button>
+        <option *ngFor="let type of filterbytype" value={{type}}>{{type}}</option>
+      </select>
+      </ion-item>
+      <ion-item> 
+      <ion-label  position="stacked">Area:</ion-label>
+      <select [(ngModel)]="area" name="area">
+        <option *ngFor="let area of filterbyarea" value={{area}}>{{area}}</option>
+      </select>
+      </ion-item> 
+    <ion-button type="submit" [disabled]="!selectFile||!type||!name||!position||!email||!cell||!area" (click)="creatNewUser()" block>Submit</ion-button>
   </form>
-
-
   </ion-grid>
   </ion-content>
   

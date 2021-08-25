@@ -10,6 +10,7 @@ export class User{
   type:string; 
   area:string;
   key: string;
+  fileName: string;
   //url: string; 
   createAt: string; 
 // profile_pic: File;

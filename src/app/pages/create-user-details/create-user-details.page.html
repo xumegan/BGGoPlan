@@ -20,7 +20,7 @@
   <ion-grid> 
     <ion-row>
       <ion-col>     
-        <img src="{{profile_pic}}">
+        <img src="{{profile_pic}}" onerror= "this.src='//via.placeholder.com/200'">
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -33,7 +33,7 @@
         <ion-item>Position: {{position}}</ion-item>
         <ion-item>Mobile: {{cell}}</ion-item>
         <ion-item>Type: {{type}}</ion-item>
-        <ion-item>Area: {{area}}</ion-item>
+        <ion-item>Area: {{area}}{{fileName}}</ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>

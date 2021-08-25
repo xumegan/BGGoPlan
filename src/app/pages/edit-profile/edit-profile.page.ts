@@ -16,8 +16,6 @@ export class EditProfilePage implements OnInit {
   user:User;
   email:string;
   name:string;
-  // firstName:string;
-  // lastName:string;
   position:string;
   cell:string;
   type:string; 
@@ -39,14 +37,12 @@ export class EditProfilePage implements OnInit {
 
      ngOnInit() {
       this.userId= (this.router.url).split('/')[2];
-      console.log(this.userId);
+
        this.firebaseService.getUser(this.userId)
        .valueChanges().subscribe(res=>{
         this.userId = this.userId;
         this.email=res.email;
         this.name=res.name;
-        // this.firstName=res.name.firstName;
-        // this.lastName=res.name.lastName;
         this.position=res.position;
         this.profile_pic=res.profile_pic
         this.cell=res.cell;
@@ -69,7 +65,6 @@ export class EditProfilePage implements OnInit {
       })
       this.filterbyarea = areatemp
       this.filterbytype = typetemp
-      console.log(this.filterbytype)
     })
   }
   async updateprofile(){
@@ -81,7 +76,6 @@ export class EditProfilePage implements OnInit {
       loading.present()
     this.firedatabase.list(`/users`).update(this.userId,{
       'editAt':Date(),
-     // name:{firstName:this.firstName,lastName:this.lastName},
       name:this.name,
       position: this.position,
       email: this.email,
@@ -90,6 +84,7 @@ export class EditProfilePage implements OnInit {
       area:this.area,
       //profile_pic:this.profile_pic
     }).then(()=>{
+      loading.dismiss()
       this.toast('Udate done!!','success');
       this.router.navigate([`/home/${this.userId}`])
     }).catch(error=>{
