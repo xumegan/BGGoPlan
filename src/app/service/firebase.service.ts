@@ -135,6 +135,7 @@ async createUser(user:User,fileUpload: FileUpload) {
   })
   loading.present()
   const filePath = `${this.basePath}/${fileUpload.file.name}`;
+  //const filePath = `reports/${fileUpload.file.name}`;
   const storageRef = this.storage.ref(filePath);
   const uploadTask = this.storage.upload(filePath, fileUpload.file);
 
