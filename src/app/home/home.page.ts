@@ -70,9 +70,7 @@ export class HomePage implements OnInit {
   logOut(){
     this.firebaseService.Logout();
   }
-// clearFilter(){
-//   //this.user.type = []
-//       this.filterbytype = []
-// }
-
+  clearFilter(){
+     window.location.reload();
+  }
 }

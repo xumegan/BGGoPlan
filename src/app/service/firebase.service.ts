@@ -76,12 +76,25 @@ getUser(id: string) {
     this.userfilter = this.db.list(this.filterPath).valueChanges();  
     this.userfilter.subscribe(data => {
       data.forEach(val =>{
+     //   switch (filter)
+      //      {
+      //      case "val.area":
+      //       this.filterbyarea.push(`${val.area}`);
+      //           break;
+      //      case "val.type":
+      //       typetemp.push(`${val.type}`)
+      //          break;
+      //    default:
+      //          alert('Default case');
+      //          break;
+      //  } 
         if(val.type === filter){
           typetemp.push(`${val.type}`)
-        }
-        if(val.area === filter){
+          if(val.area === filter){
           return   this.filterbyarea.push(`${val.area}`)
-        }      
+        }  
+         }
+            
       })
     })
   }
