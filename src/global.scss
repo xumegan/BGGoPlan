@@ -34,6 +34,9 @@ img {
   }
   select{
     border: none;
+    background: none;
+    background-color: none;
+    width:100%;
   }
   .vertical-align-content > *{
     display: flex !important;
