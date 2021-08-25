@@ -41,42 +41,43 @@
       </div>
   </ion-list>
   <div scrollY="true" id="scroll-list" no-padding>
-    
+
+
+
     <ion-list color='light' no-padding class="nopadding">   
-        <div *ngFor="let user of users">
-          <ion-item  color='light' *ngIf="area == user.area || type == user.type ">
-            <ion-avatar slot="start">
-              <ion-img src="{{user?.profile_pic}}" onerror= "this.src='//via.placeholder.com/200'"></ion-img>
-            </ion-avatar>
-            <ion-col style="text-align: center;">{{user?.name}}</ion-col>
-            <ion-col style="text-align: center;">{{user?.position}}</ion-col>
-            <ion-col style="text-align: center;">{{user?.cell}}</ion-col>
-          </ion-item>
-        </div>
-    </ion-list>
+     <div *ngFor="let user of users">
+        <ion-item  color='light' *ngIf="area == user.area || type == user.type ">
+          <ion-avatar slot="start">
+            <ion-img src="{{user?.profile_pic}}" onerror= "this.src='//via.placeholder.com/200'"></ion-img>
+          </ion-avatar>
+          <ion-col style="text-align: center;">{{user?.name}}</ion-col>
+          <ion-col style="text-align: center;">{{user?.position}}</ion-col>
+          <ion-col style="text-align: center;">{{user?.cell}}</ion-col>
+        </ion-item>
+    </div>
+  </ion-list>
   </div>
   
   <ion-row>
     <label class="filterby">
-     <ion-select [(ngModel)]="area" name="area" placeholder="Filter by Area">
-      <ion-select-option *ngFor="let area of filterbyarea" value={{area}}>{{area}}</ion-select-option>
+     <ion-select  [disabled]="type"[(ngModel)]="area" name="area" placeholder="Filter by Area" >
+      <ion-select-option  *ngFor="let area of filterbyarea" value={{area}}>{{area}}</ion-select-option>
       </ion-select>
     </label >
 
     <label class="filterby">              
-      <ion-select [(ngModel)]="type" name="type" placeholder="Filter by Type">
-        <ion-select-option *ngFor="let type of filterbytype" value={{type}}>  
+      <ion-select [disabled]="area" [(ngModel)]="type" name="type" placeholder="Filter by Type" >
+        <ion-select-option  *ngFor="let type of filterbytype" value={{type}}>  
        {{type}}</ion-select-option>
    </ion-select>
   </label>
 
-      <!-- <ion-buttons>
+      <ion-buttons>
         <ion-button (click)="clearFilter()">
           <ion-icon name="refresh" slot="icon-only"></ion-icon>
         </ion-button>
-      </ion-buttons> -->
+      </ion-buttons>
       
     </ion-row> 
   </div> 
-  
 </ion-content>
