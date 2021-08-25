@@ -18,9 +18,9 @@
 
 <ion-content text-center class="vertical-align-content"> 
   <ion-grid> 
-    <ion-row class="vertical-align-content">
+    <ion-row>
       <ion-col>     
-        <ion-img style="width:30%;" src="{{profile_pic}}"></ion-img>
+        <img src="{{profile_pic}}" onerror= "this.src='//via.placeholder.com/200'">
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -28,13 +28,12 @@
   <ion-grid> 
     <ion-row>
       <ion-col>    
-        <!-- <ion-item><h1>{{firstName}} {{lastName}}</h1></ion-item>  -->
         <ion-item><h1>{{name}}</h1></ion-item>    
         <ion-item> Email: {{email}}</ion-item>      
         <ion-item>Position: {{position}}</ion-item>
         <ion-item>Mobile: {{cell}}</ion-item>
         <ion-item>Type: {{type}}</ion-item>
-        <ion-item>Area: {{area}}</ion-item>
+        <ion-item>Area: {{area}}{{fileName}}</ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>

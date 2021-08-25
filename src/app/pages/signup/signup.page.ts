@@ -10,10 +10,8 @@ import { LoadingController, ToastController } from '@ionic/angular';
   styleUrls: ['./signup.page.scss'],
 })
 export class SignupPage implements OnInit {
-  private basePath = '/contacts';
+  private basePath = '/users';
   name:string;
-  //firstName:string;
-  //lastName:string;
   email:string;
   password:string;
 
@@ -37,19 +35,18 @@ export class SignupPage implements OnInit {
       loading.present()
       this.afAuth.createUserWithEmailAndPassword(this.email, this.password)
       .then((data)=>{
-        console.log(data)
         data.user.sendEmailVerification();
         this.db.list(this.basePath).push({
-          userId:data.user.uid,
-          createAt:Date.now(),
-          //name:{firstName:this.firstName,lastName:this.lastName},
+          key:data.user.uid,
+          createAt:`${Date.now()}`,
           name:this.name,
           email: this.email,
           area:'',
           type:'',
           position: '',
           cell: '',
-          profile_pic:''
+          profile_pic:'',
+          fileName:''
 
         }).then(()=>{
           loading.dismiss();

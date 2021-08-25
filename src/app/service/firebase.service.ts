@@ -8,6 +8,8 @@ import { finalize,switchMap } from 'rxjs/operators';
 import { LoadingController,ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
+import { FileUpload } from '../model/file-upload';
+
 
 @Injectable({
   providedIn: 'root'
@@ -18,15 +20,19 @@ usersRef:AngularFireList<any>;
 filterRef:Observable<any[]>;
 user$:Observable<User>;
 users:User[];
-//private basePath = '/users';
-private basePath = '/contacts';
+
+userfilter:Observable<any>;
+  filterbyarea:any[];
+  filterbytype:any[];
+private basePath = '/users';
+//private basePath = '/contacts';
 private filterPath = '/userfilter';
 
   constructor(
     private db: AngularFireDatabase, 
     private storage: AngularFireStorage,
     private afAuth: AngularFireAuth,
-    private LoadingCtrl: LoadingController,
+    private loadingCtrl: LoadingController,
     private toastController: ToastController,
     private router:Router
     ) {
@@ -42,15 +48,6 @@ private filterPath = '/userfilter';
         )
 
      } //end of constructor
-     async toast(message, status){
-       const toast = await this.toastController.create({
-         message:message,
-       color:status,
-       position:'top',
-       duration:2000
-       })
-      
-     }
 
 getUsers() {
   this.usersRef = this.db.list(this.basePath);
@@ -64,75 +61,54 @@ getUser(id: string) {
 
   updateUser(id, user: User) {
     return this.userRef.update({
-      name:{firstName:user.firstName,lastName:user.lastName},
+      name:user.name,
       email: user.email,
       position: user.position,
       cell: user.cell,
       type:user.type, 
       area:user.area,
-     // profile_pic:"https://firebasestorage.googleapis.com/v0/b/fir-authreact-f0c50.appspot.com/o/products%2F2.jpg?alt=media&token=316ddc5b-f0c1-4b0c-804a-d97e43f057f5"
+    //  profile_pic:user.profile_pic,
     })
   }
 
-  
-  createUser(user: User) {
-    return this.userRef.set({
-      // name: user.name,
-      // id:user.id,
-      email: user.email,
-      firstName:user.firstName,
-      lastName:user.lastName,
-      position: user.position,
-      cell: user.cell,
-      type:user.type, 
-      area:user.area,
-      profile_pic:user.profile_pic,
-   
-    })
-  }
-
-
-  deleteUser(userId: string): void {
-    this.deleteFileDatabase(userId).then(() => {
-        this.deleteFileStorage(userId);
+  getFilter(filter:string){
+   // userfilter:{}
+    const areatemp = []
+    const typetemp = []
+    this.userfilter = this.db.list(this.filterPath).valueChanges();  
+    this.userfilter.subscribe(data => {
+      data.forEach(val =>{
+        if(val.type === filter){
+          typetemp.push(`${val.type}`)
+        }
+        if(val.area === filter){
+          return   this.filterbyarea.push(`${val.area}`)
+        }      
       })
-      .catch(error => console.log(error));
+    })
   }
-
- 
-  getFilter(){
-    this.filterRef = this.db.list(this.filterPath).valueChanges(); 
-    return this.filterRef 
-  }
-
-
 
 signUpUser(email:string, password:string):Promise<any>{
   return this.afAuth.createUserWithEmailAndPassword(email, password)
  }
 
 async loginUser(email:string, password:string){
-  const loading = await this.LoadingCtrl.create({
+  const loading = await this.loadingCtrl.create({
     message:'Authenticating ...',
     spinner:'crescent',
     showBackdrop:true
   })
   loading.present()
-  this.afAuth.setPersistence(firebase.default.auth.Auth.Persistence.LOCAL)
-  .then(()=>{
-    this.afAuth.signInWithEmailAndPassword(email, password)
-    .then((data)=>{
-      if(!data.user.emailVerified)
-    {
-loading.dismiss();
-this.router.navigate(['/home'])
+  this.afAuth.setPersistence(firebase.default.auth.Auth.Persistence.LOCAL).then(()=>{
+    this.afAuth.signInWithEmailAndPassword(email, password).then((data)=>{
+      if(!data.user.emailVerified){
+      loading.dismiss();
+      this.router.navigate(['/home'])
     }
-  })
-  .catch(error =>{
+  }).catch(error =>{
     loading.dismiss();
     this.toast(error.message,'danger')
-  })
-    
+    }) 
   }).catch(error =>{
     loading.dismiss();
     this.toast(error.message,'danger')
@@ -141,7 +117,7 @@ this.router.navigate(['/home'])
 
 
  async Logout(){
-  const loading = await this.LoadingCtrl.create({
+  const loading = await this.loadingCtrl.create({
     spinner:'crescent',
     showBackdrop:true
   })
@@ -153,53 +129,73 @@ this.router.navigate(['/home'])
    })
  } 
 
+async createUser(user:User,fileUpload: FileUpload) {
+  const loading = await this.loadingCtrl.create({
+    message:'Creating ...',
+    spinner:'crescent',
+    showBackdrop:true
+  })
+  loading.present()
+  const filePath = `${this.basePath}/${fileUpload.file.name}`;
+  const storageRef = this.storage.ref(filePath);
+  const uploadTask = this.storage.upload(filePath, fileUpload.file);
 
+  uploadTask.snapshotChanges().pipe(
+    finalize(() => {
+      this.storage.ref(filePath).getDownloadURL().subscribe(downloadURL => {
+        fileUpload.url = downloadURL;
+        fileUpload.filename = fileUpload.file.name;
 
+        this.saveallData(user,fileUpload).then(()=>{
+          this.toast('Create new user done!!','success');
+          loading.dismiss();
+        }).then(()=>{
+          this.router.navigate(['/home'])
+        }).catch(error =>{
+          loading.dismiss();
+          this.toast(error.message,'danger')
+      }).catch(error =>{
+        loading.dismiss();
+        this.toast(error.message,'danger')
+      });
+      });
+    })
+  ).subscribe();
+}
 
-///for upload file
-  pushFileToStorage(user: User): Observable<number> {
-    const filePath = `${this.basePath}/${user.profile_pic.name}`;
-    const storageRef = this.storage.ref(filePath);
-    const uploadUser = this.storage.upload(filePath, user.profile_pic);
-
-    uploadUser.snapshotChanges().pipe(
-      finalize(() => {
-        storageRef.getDownloadURL().subscribe(downloadURL => {
-         user.url = downloadURL;
-         user.name = user.profile_pic.name;
-          this.saveFileData(user);
-        });
-      })
-    ).subscribe();
-
-    return uploadUser.percentageChanges();
-  }
-
-
-////
-private deleteFileDatabase(key: string): Promise<void> {
+deleteFileDatabase(key: string): Promise<void> {
   return this.db.list(this.basePath).remove(key);
 }
 
-private deleteFileStorage(name: string): void {
+deleteFileStorage(name: string): void {
   const storageRef = this.storage.ref(this.basePath);
   storageRef.child(name).delete();
 }
 
-private saveFileData(user: User): void {
-  this.db.list(this.basePath).push({
-    //user
-    email: user.email,
-    firstName:user.firstName,
-    lastName:user.lastName,
-    position: user.position,
-    cell: user.cell,
-    type:user.type, 
-    area:user.area,
-    profile_pic:user.url,
-  
-  });
-}
+  private async saveallData(user: User,fileUpload: FileUpload){    
+    this.db.list(this.basePath).push({
+      email: user.email,
+      fileName:fileUpload.filename,
+      name:user.name,
+      position: user.position,
+      cell: user.cell,
+      type:user.type, 
+      area:user.area,
+      profile_pic:fileUpload.url,
+    }).then(ref=>{
+       this.db.object(`${this.basePath}/${ref.key}`).update({ key:ref.key})
+    })
+  }
+
+  async toast(message, status){
+    const toast = await this.toastController.create({
+      message:message,
+      color:status,
+      position:'middle',
+      duration:1000
+    })
+   toast.present();
+  }
 
 }
 

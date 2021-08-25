@@ -37,8 +37,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.fetchUsers();
-    
+    this.fetchUsers();    
     let userRes = this.firebaseService.getUsers();
     userRes.snapshotChanges().subscribe(res => {
       this.users = [];

@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="success">
-    <ion-title>Welcome to BGGoPlan!! Please Sign In</ion-title>
+    <ion-title>Welcome to BGGoPlan!! <strong> Sign In</strong></ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -9,16 +9,16 @@
     <ion-list>
       <ion-item>
         <ion-label  required position="stacked">Email:</ion-label>
-        <ion-input type="text" [(ngModel)]="email" name="email"></ion-input>
+        <ion-input type="email" [(ngModel)]="email" name="email"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label  required position="stacked">Password:</ion-label>
-        <ion-input type="text" [(ngModel)]="password" name="password"></ion-input>
+        <ion-input type="password" [(ngModel)]="password" name="password"></ion-input>
       </ion-item>
-      <ion-button color="success" type="submit" (click)="login()">Login</ion-button>
+      <ion-button color="success" type="submit" (click)="login()" [disabled]="!password||!email">Login</ion-button>
     </ion-list>
     </form>
   <div>
-    <a [routerLink]="['/signup']"><p>donot have an account?</p></a>
+    <a [routerLink]="['/signup']" ><p>donot have an account?</p></a>
   </div>
 </ion-content>

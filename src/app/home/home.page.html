@@ -30,16 +30,27 @@
   <hr>
 <div class="bottom"  >
   <p [hidden]="!area&&!type"> Filtered List: {{area}}{{type}}</p>
+  <ion-list color='light' [hidden]="!area&&!type" >   
+      <div>
+        <ion-item  color='light'>
+          <ion-col></ion-col>
+          <ion-col>Name</ion-col>
+          <ion-col >Position</ion-col>
+          <ion-col>Phone</ion-col>
+        </ion-item>
+      </div>
+  </ion-list>
   <div  scrollY="true" id="scroll-list">
+    
     <ion-list color='light' >   
         <div *ngFor="let user of users">
           <ion-item  color='light' *ngIf="area == user.area || type == user.type ">
             <ion-avatar slot="start">
-              <img src="{{user.profile_pic}}" />
+              <ion-img src="{{profile_pic}}" onerror= "this.src='//via.placeholder.com/200'"></ion-img>
             </ion-avatar>
-            <!-- <ion-col>{{user.name.firstName}} {{user.name.lastName}}</ion-col> -->
             <ion-col>{{user.name}}</ion-col>
             <ion-col >{{user.position}}</ion-col>
+            <ion-col >{{user.cell}}</ion-col>
           </ion-item>
         </div>
     </ion-list>

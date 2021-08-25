@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="success">
-    <ion-title>Welcome to BGGoPlan! Please Sign Up</ion-title>
+    <ion-title>Welcome to BGGoPlan! <strong>Please Sign Up</strong></ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,23 +11,15 @@
         <ion-label  required position="stacked"> Name:</ion-label>
         <ion-input type="text" [(ngModel)]="name" name="name"></ion-input> 
       </ion-item>
-    <!-- <ion-item>
-      <ion-label  required position="stacked">First Name:</ion-label>
-      <ion-input type="text" [(ngModel)]="firstName" name="firstName"></ion-input> 
-    </ion-item>
-    <ion-item>
-      <ion-label required position="stacked">Last Name:</ion-label>
-      <ion-input type="text" [(ngModel)]="lastName" name="lastName"></ion-input>
-    </ion-item> -->
     <ion-item>
       <ion-label  required position="stacked">Email:</ion-label>
-      <ion-input type="text" [(ngModel)]="email" name="email"></ion-input>
+      <ion-input type="email" [(ngModel)]="email" name="email"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label  required position="stacked">Password:</ion-label>
-      <ion-input type="text" [(ngModel)]="password" name="password"></ion-input>
+      <ion-input type="password" [(ngModel)]="password" name="password"></ion-input>
     </ion-item>   
-    <ion-button color="success" type="submit" (click)="register()">Register</ion-button>
+    <ion-button color="success" type="submit" (click)="register()" [disabled]="!name||!email||!password">Register</ion-button>
     <ion-button color="success" routerLink='/login' >Cancel</ion-button>
   </ion-list>
   </form>
